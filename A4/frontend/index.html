@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang = en>
+	<head>
+		<title>Hospital Management System - Sign In</title>
+	
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300&family=IM+Fell+English&family=Nanum+Myeongjo:wght@700&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Ovo&family=Vollkorn:wght@500&family=Zen+Antique&display=swap" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8">
+
+		<link rel="stylesheet" type="text/css" href="styles.css">
+
+	</head>
+	<body bgcolor = #3A1078>
+
+		<br><br>
+		<div id = round_box style = "background: #5E41CA" align = "center">
+			<h1 align = "center" style = "color:white; font-size:45px; font-family: 'Old Standard TT'">Hospital Management System</h1>
+		</div>
+
+
+
+		<div id = round_box style = "background: #6DC5CD; margin-top: 10%" align = "center">
+			<h2 align = "center" style = "color:#000055; font-size: 30px; font-family: 'Noto Serif'">Sign In</h2>
+				<div>
+					<form style = "font-size: 20px; font-family: 'Noto Serif'" id = signin>
+						<br>
+						<label for = "EID">Employee ID:</label>
+						<input type = "number" name = "EID" id = "EID" style = "font-size: 17px; font-family: 'Noto Serif'; border-radius: 10px">
+						<br><br>
+						<label for = "password">Password:</label>
+						<input type = "password" name = "password" id = "password" style = "font-size: 17px; font-family: 'Noto Serif'; border-radius: 10px">
+						<br><br>
+					</form>
+				</div>
+				<button id = round_box style = "background: navy; font-family: 'Noto Serif'; color: white; font-size:17px; width:70px; padding: 10px; border-radius: 10px" onclick="SignIn()">Next</button>
+			<p align = "center" style="color: navy; font-size : 15px; font-family: 'Noto Serif'">Not a registered user? Contact Administrator.</p>	
+		</div>
+		<script type = "text/javascript" src = "./login.js"></script>
+	</body>
+</html>

@@ -1,6 +1,4 @@
 // Subham Ghosh, Aritra Mitra, Anubhav Dhar
-const signInForm = document.forms['signin'];	
-let incorrectLogin = false;
 
 function hashPassword(string) {
 	const utf8 = new TextEncoder().encode(string);
@@ -13,17 +11,25 @@ function hashPassword(string) {
 	});
 }
 
-function notFound(int, string){ 
+function notFound(eid, pass){ 
 	// enter database check here
+	if(eid === ''){
+		return true;
+	}
 	return false;
 }
 
+function getUserType(eid){
+	return 'doctor';
+}
+
 function SignIn(){
+	const signInForm = document.forms['signin'];	
+	let incorrectLogin = false;
 	const EID = signInForm.EID.value;
 	const password = signInForm.password.value;
-	let passwordHash;
 	hashPassword(password).then((hex) => {
-		passwordHash = hex;
+		const passwordHash = hex;
 
 		// after this line EID, password and passwordHash have inputs of the form
 		alert("Clicked Next!\nUsername: " + EID + "\nPassword: " + password + "\nHash: " + passwordHash);
@@ -37,6 +43,11 @@ function SignIn(){
 		}
 
 		// enter handling code
+		const userType = getUserType(EID);
+		if(userType === 'doctor'){
+			window.location.href = "doctor.html?eid=" + EID;
+			return;
+		}
 		window.location.href = "https://youtu.be/a3Z7zEc7AXQ";
 
 	});

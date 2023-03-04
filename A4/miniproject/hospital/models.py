@@ -96,6 +96,6 @@ class user(models.Model):
     EID = models.BigIntegerField(unique=True,primary_key=True)
     Password_hash = models.CharField(max_length=255)
     roleType = models.TextChoices('roleType','admin doctor front_desk data_entry')
-    role = models.CharField(choices = roleType.choices)
+    role = models.CharField(choices = roleType.choices, max_length=30)
     def __str__(self) -> str:
         return str(self.EID)

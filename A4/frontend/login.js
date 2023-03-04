@@ -20,6 +20,7 @@ function notFound(eid, pass){
 }
 
 function getUserType(eid){
+	// query database to get entity
 	entities = ['doctor', 'admin', 'data_entry', 'front_desk'];
 	return entities[eid%4];
 }

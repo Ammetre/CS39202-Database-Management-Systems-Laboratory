@@ -7,7 +7,7 @@
 
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300&family=IM+Fell+English&family=Nanum+Myeongjo:wght@700&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Ovo&family=Vollkorn:wght@500&family=Zen+Antique&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300&family=IM+Fell+English&family=Nanum+Myeongjo:wght@700&family=Inter&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Ovo&family=Vollkorn:wght@500&family=Zen+Antique&display=swap" rel="stylesheet">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="utf-8">
 
@@ -33,10 +33,78 @@
 		<br>
 		<br>
 		<br>
-		<hr color = #076307 style="margin: 10px">
+		<hr color = #076307 style="margin: 10px; padding: 2px">
 		<br>
 
+		<table border="2px" style="background-color: #BFDB38; border-radius: 10px" align="center">
+			<tr>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px;" colspan="4">
+					<i><b>Existing Users</b></i>
+				</td>
+			</tr>
+			<tr>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
+					<i>Employee ID</i>
+				</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
+					<i>Name</i>
+				</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
+					<i>Role</i>
+				</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
+					<i>Delete</i>
+				</td>
+			</tr>
+		</table>
+
 		<!-- <p id = 'patient-info' style="padding-left: 20px; color: #D61355; font-size: 23px; font-family: 'Inter';">No Patient Selected</p> -->
+
+		<br>
+		<br>
+		<br>
+		<hr color = #076307 style="margin: 10px; padding: 2px">
+		<br>
+
+		<table style="background-color: #BFDB38; border-radius: 10px" align="center">
+			<tr>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 1000px" colspan="2">
+					<i><b>Add New User</b></i>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form style = "font-size: 20px; font-family: 'Inter'" id = 'add-user'>
+						<br>
+						<table>
+							<tr>
+								<td><label for = "EID"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Employee ID:</span></label></td>
+								<td><input type = "number" name = "EID" id = "EID" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px"></td>
+							</tr>
+							<tr>
+								<td><label for = "name"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Name:</span></label></td>
+								<td><input type = "text" name = "name" id = "name" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px"></td>
+							</tr>
+							<tr>
+								<td><label for = "role"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Role:</span></label></td>
+								<td>
+									<select id = "role" name = "role" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px">
+										<option value="doctor">Doctor</option>
+										<option value="data_entry">Front Desk Operator</option>
+										<option value="front_desk">Data Entry Operator</option>
+									</select>
+								</td>
+							</tr>
+						</table>
+						<br><br>
+					</form>
+				</td>
+				<td valign = "center">
+					<div style = "border: 2px solid white; margin-left: 10px; background: #F94A29; font-family: 'Inter'; color: white; font-size:23px; width:150px; padding: 10px; border-radius: 10px;" onclick="addUser()" align = center>Add User</div>
+				</td>
+			</tr>
+		</table>
+
 
 		<script type = "text/javascript" src = "./admin.js"></script>
 	</body>

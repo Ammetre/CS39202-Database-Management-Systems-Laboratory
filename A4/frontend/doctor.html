@@ -7,7 +7,7 @@
 
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300&family=IM+Fell+English&family=Nanum+Myeongjo:wght@700&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Ovo&family=Vollkorn:wght@500&family=Zen+Antique&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300&family=IM+Fell+English&family=Nanum+Myeongjo:wght@700&family=Inter&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Ovo&family=Vollkorn:wght@500&family=Zen+Antique&display=swap" rel="stylesheet">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="utf-8">
 
@@ -22,15 +22,17 @@
 		</div>
 
 		<br>
-		<p style ="padding-left: 20px; color: #db3e04; font-size: 23px; font-family: Inter;"><b>Ask for patient information</b></p>
-		<form onkeydown="return event.key != 'Enter';" style = "font-size: 23px; font-family: 'Inter'; padding-left: 20px" id = "patient-form">
-			<br>
-			<label for = "PID" style = "float: left; margin-right:5px; margin-top: 8px;">Patient ID:</label>
-			<input type = "number" name = "PID" id = "PID" style = "font-size: 23px; font-family: 'Inter'; border-radius: 10px; float: left; margin-top: 5px">
-			<div style = "border: 2px solid white; margin-left: 10px; background: #F94A29; font-family: 'Inter'; color: white; font-size:23px; width:75px; padding: 10px; border-radius: 10px; float: left;" onclick="FetchPatient()" align = center>Search</div>
-		</form>
+		<div style="float: left">
+			<p style ="padding-left: 20px; color: #db3e04; font-size: 23px; font-family: Inter;"><b>Ask for patient information</b></p>
+			<form onkeydown="return event.key != 'Enter';" style = "font-size: 23px; font-family: 'Inter'; padding-left: 20px;" id = "patient-form">
+				<br>
+				<label for = "PID" style = "float: left; margin-right:5px; margin-top: 8px;">Patient ID:</label>
+				<input type = "number" name = "PID" id = "PID" style = "font-size: 23px; font-family: 'Inter'; border-radius: 10px; float: left; margin-top: 5px">
+				<div style = "border: 2px solid white; margin-left: 10px; background: #F94A29; font-family: 'Inter'; color: white; font-size:23px; width:75px; padding: 10px; border-radius: 10px; float: left;" onclick="FetchPatient()" align = center>Search</div>
+			</form>
+		</div>
 
-		<br>
+<!-- 	<br>
 		<br>
 		<br>
 		<br>
@@ -39,9 +41,10 @@
 		<br>
 		<br>
 		<hr color = #db3e04 style="margin: 10px">
-		<br>
-
-		<p id = 'patient-info' style="padding-left: 20px; color: #db3e04; font-size: 23px; font-family: 'Inter';">No Patient Selected</p>
+		<br> -->
+		<div id = round_box_noblur style="float: right; padding; border-radius: 10px; background-color: #FCE22A">
+			<p id = 'patient-info' style="padding: 20px; color: #db3e04; font-size: 25px; font-family: 'Inter';">No Patient Selected</p>
+		</div>
 
 		<script type = "text/javascript" src = "./doctor.js"></script>
 	</body>

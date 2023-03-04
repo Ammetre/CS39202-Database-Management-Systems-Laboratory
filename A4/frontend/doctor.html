@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang = en>
+	<head>
+
+		<title>Hospital Management System - Doctor</title>
+	
+		
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@300&family=IM+Fell+English&family=Nanum+Myeongjo:wght@700&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Ovo&family=Vollkorn:wght@500&family=Zen+Antique&display=swap" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8">
+
+		<link rel="stylesheet" type="text/css" href="styles.css">
+
+	</head>
+	<body bgcolor = #FCE22A>
+		<div style = " margin: 0px; height: 70px; background: #D61355; border-radius: 10px">
+			<br>
+			<div style = "color: white; font-size: 25px; font-family: Arial; padding-left: 20px; float: left">Hospital Management System</div>
+			<div id = "doctor-name" style = "color: white; font-size: 25px; font-family: Arial; padding-right: 30px; float: right;" align = right>Welcome, Dr.</div>
+		</div>
+
+		<br>
+		<p style ="padding-left: 20px; color: #D61355; font-size: 23px; font-family: Arial;"><b>Ask for patient information</b></p>
+		<form style = "font-size: 23px; font-family: 'Arial'; padding-left: 20px" id = "patient-form">
+			<br>
+			<label for = "PID">Patient ID:</label>
+			<input type = "number" name = "PID" id = "PID" style = "font-size: 23px; font-family: 'Noto Serif'; border-radius: 10px">
+			<br>
+			<div style = "border: 2px solid white; margin-top: 10px; background: #F94A29; font-family: 'Arial'; color: white; font-size:23px; width:70px; padding: 10px; border-radius: 10px" onclick="FetchPatient()">Search</div>
+		</form>
+
+		<br>
+		<hr color = #D61355 style="margin: 10px">
+		<br>
+
+		<p id = 'patient-info' style="padding-left: 20px; color: #D61355; font-size: 23px; font-family: Arial;">No Patient Selected</p>
+
+		<script type = "text/javascript" src = "./doctor.js"></script>
+	</body>
+</html>

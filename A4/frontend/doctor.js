@@ -21,8 +21,17 @@ function getPatientInfo(PID){
 	return "<b>Patient Information</b><br> <ul style = \"color: #D61355; font-size: 23px; font-family: \'Old Standard TT\';\"> <li> Patient ID : " + PID + "</ul>";
 }
 
+function notFound(PID){
+	// do database query here
+	return false;
+}
+
 function FetchPatient(){
 	const PID = document.forms['patient-form'].PID.value;
 	const patientInfo = document.getElementById('patient-info');
+	if(notFound(PID) == true){
+		patientInfo.innerHTML = "Patient Not Found!";
+		return;
+	}
 	patientInfo.innerHTML = getPatientInfo(PID);
 }

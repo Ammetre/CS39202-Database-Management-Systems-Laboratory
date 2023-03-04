@@ -11,7 +11,7 @@ function hashPassword(string) {
 	});
 }
 
-function notFound(eid, pass){ 
+function notFound(eid, pass){
 	// enter database check here
 	if(eid === ''){
 		return true;
@@ -20,11 +20,12 @@ function notFound(eid, pass){
 }
 
 function getUserType(eid){
-	return 'doctor';
+	entities = ['doctor', 'admin', 'data_entry', 'front_desk'];
+	return entities[eid%4];
 }
 
 function SignIn(){
-	const signInForm = document.forms['signin'];	
+	const signInForm = document.forms['signin'];
 	let incorrectLogin = false;
 	const EID = signInForm.EID.value;
 	const password = signInForm.password.value;
@@ -44,11 +45,9 @@ function SignIn(){
 
 		// enter handling code
 		const userType = getUserType(EID);
-		if(userType === 'doctor'){
-			window.location.href = "doctor.html?eid=" + EID;
-			return;
-		}
-		window.location.href = "https://youtu.be/a3Z7zEc7AXQ";
+		window.location.href = userType + ".html?eid=" + EID;
+		return;
+		// window.location.href = "https://youtu.be/a3Z7zEc7AXQ";
 
 	});
 

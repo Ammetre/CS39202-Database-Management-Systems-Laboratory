@@ -15,13 +15,13 @@ window.onload = function(){
 		tmp = params[i].split('=');
 		data[tmp[0]] = tmp[1];
 	}
-	document.getElementById('doctor-name').innerHTML += " Doctor " + getName(data.eid);
+	document.getElementById('data_entry-name').innerHTML += " Data Entry Operator " + getName(data.eid);
 }
 
 function getPatientInfo(){
 	// do database query here
 	return `<b>Patient Information</b><br>
-				<ul style = \"color: #db3e04; font-size: 23px; font-family: \'Old Standard TT\';\">
+				<ul style = \"color: #D61355; font-size: 23px; font-family: \'Old Standard TT\';\">
 					<li> Patient ID : ` + PID +
 				`</ul>`;
 }
@@ -35,12 +35,12 @@ function treatmentForm(){
 		return `<div>
 					<form style = \"font-size: 23px; font-family: \'Old Standard TT\'; padding-left: 20px;\" id = \"treatment-form\">
 						<br>
-						<p style = \"margin-right:5px; margin-top: 8px; color: #db3e04;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
+						<p style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
 						<br>
-						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #db3e04;\">Treatment:</label>
+						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #D61355;\">Treatment:</label>
 						<textarea rows = "4" cols = "50" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 23px; font-family: \'Noto Serif\'; border-radius: 10px; margin-top: 5px\"></textarea>
 						<br>
-						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #db3e04;\">Date:</label>
+						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Date:</label>
 						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 23px; font-family: \'Noto Serif\'; border-radius: 10px; margin-top: 5px\">
 						<br><br>
 					</form>

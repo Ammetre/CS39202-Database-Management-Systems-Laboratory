@@ -1,7 +1,7 @@
 from rest_framework import serializers
 import random
 from .models import Doctor, Patient, Appointment, Admission_Info
-class DoctorSerializer(serializers.ModelSerializer):
+class PatientSerializer(serializers.ModelSerializer):
     PID = serializers.IntegerField(required=True)
     Name = serializers.CharField(max_length=100, required=True)
     Gov_ID = serializers.CharField(max_length=100, required=True)

@@ -21,7 +21,7 @@ window.onload = function(){
 function getPatientInfo(){
 	// do database query here
 	return `<b>Patient Information</b><br>
-				<ul style = \"color: #D61355; font-size: 23px; font-family: \'Old Standard TT\';\">
+				<ul style = \"color: #D61355; font-size: 23px; font-family: \'Inter\';\">
 					<li> Patient ID : ` + PID +
 				`</ul>`;
 }
@@ -33,20 +33,20 @@ function geneterateNewRID(){
 
 function treatmentForm(){
 		return `<div>
-					<form style = \"font-size: 23px; font-family: \'Old Standard TT\'; padding-left: 20px;\" id = \"treatment-form\">
+					<form style = \"font-size: 23px; font-family: \'Inter\'; padding-left: 20px;\" id = \"treatment-form\">
 						<br>
 						<p style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
 						<br>
 						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #D61355;\">Treatment:</label>
-						<textarea rows = "4" cols = "50" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 23px; font-family: \'Noto Serif\'; border-radius: 10px; margin-top: 5px\"></textarea>
+						<textarea rows = "4" cols = "50" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea>
 						<br>
 						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Date:</label>
-						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 23px; font-family: \'Noto Serif\'; border-radius: 10px; margin-top: 5px\">
+						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\">
 						<br><br>
 					</form>
 				</div>
 				<br>
-				<div style = \"border: 2px solid white; margin: 10px; background: #F94A29; font-family: \'Old Standard TT\'; color: white; font-size:23px; width:250px; padding: 10px; border-radius: 10px;\" align = center onclick=\"issueTreatment()\">Schedule Treamtment</div>
+				<div style = \"border: 2px solid white; margin: 10px; background: #F94A29; font-family: \'Inter\'; color: white; font-size:23px; width:250px; padding: 10px; border-radius: 10px;\" align = center onclick=\"issueTreatment()\">Schedule Treamtment</div>
 				`;
 }
 

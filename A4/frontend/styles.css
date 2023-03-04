@@ -1,15 +1,15 @@
 p, ul{
-	font-family: "Old Standard TT";
+	font-family: "Inter";
 	font-size: 27px;
 	color: white;
 }
 h2{
-	font-family: "Noto Serif";
+	font-family: "Inter";
 	font-size: 32px;
 	color: #EEA000;
 }
 a{
-	text-decoration:none; 
+	text-decoration:none;
 	color:#05A1FF;
 }
 #round_box{
@@ -32,7 +32,7 @@ a{
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  font-family: 'Noto Serif';
+  font-family: 'Inter';
 }
 
 .dropdown {
@@ -41,7 +41,7 @@ a{
   margin: 10px;
   border-radius: 5px;
   background: #DDFFFF;
-  font-family: 'Noto Serif';
+  font-family: 'Inter';
 }
 
 .dropdown-content {

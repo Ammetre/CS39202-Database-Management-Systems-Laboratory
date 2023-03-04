@@ -38,7 +38,7 @@ function SignIn(){
 		if(notFoundVariable){
 			if(!incorrectLogin){
 				incorrectLogin = true;
-				signInForm.innerHTML += '<p style = "color: red; font-size :15px; font-family : \'Noto Serif\'" align = "center">INCORRECT CREDENTIALS!</p> <br>';
+				signInForm.innerHTML += '<p style = "color: red; font-size :15px; font-family : \'Inter\'" align = "center">INCORRECT CREDENTIALS!</p> <br>';
 			}
 			return;
 		}

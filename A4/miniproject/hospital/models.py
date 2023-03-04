@@ -13,7 +13,7 @@ alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters a
 alphabetic = RegexValidator(r'^[a-zA-Z ]*$', 'Only alphabetic characters are allowed.')
 # Create your models here.
 class Patient(models.Model):
-    BloodGroupType = models.TextChoices('BlooodGroupType', 'A+ A- B+ B- AB+ AB- O+ O-')
+    BloodGroupType = models.TextChoices('BloodGroupType', 'A+ A- B+ B- AB+ AB- O+ O-')
     PID = models.BigIntegerField(unique=True,primary_key=True)
     Name = models.CharField(max_length = 100, default=names.get_full_name())
     Gov_ID = models.CharField(max_length = 25, unique=True,validators=[alphanumeric])

@@ -40,7 +40,7 @@ function treatmentForm(){
 						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #db3e04;\">Treatment:</label>
 						<textarea rows = "4" cols = "50" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea>
 						<br>
-						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #db3e04;\">Date:</label>
+						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #db3e04; float: left;\">Date:</label>
 						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\">
 						<br><br>
 					</form>

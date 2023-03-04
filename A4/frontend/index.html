@@ -13,29 +13,36 @@
 		<link rel="stylesheet" type="text/css" href="styles.css">
 
 	</head>
-	<body bgcolor = #3A1078>
+	<body>
 
 		<br><br>
-		<div id = round_box style = "background: #5E41CA" align = "center">
-			<h1 align = "center" style = "color:white; font-size:45px; font-family: 'Inter'">Hospital Management System</h1>
+		<div id = round_box align = "center" style = "border: 6px solid #2E3840;">
+			<h1 align = "center" style = "color:#2E3840; font-size:45px; font-family: 'Inter'">Hospital Management System</h1>
 		</div>
 
 
 
-		<div id = round_box style = "background: #6DC5CD; margin-top: 10%" align = "center">
-			<h2 align = "center" style = "color:#000055; font-size: 30px; font-family: 'Inter'">Sign In</h2>
+		<div id = round_box style = "margin-top: 10%; background-color: rgba(58, 152, 185, 0.1);" align = "center">
+			<h2 align = "center" style = "color:#000055; font-size: 30px; font-family: 'Inter'">
+				<span class="badge">Sign In</span>
+			</h2>
 				<div>
 					<form style = "font-size: 20px; font-family: 'Inter'" id = signin>
 						<br>
-						<label for = "EID">Employee ID:</label>
-						<input type = "number" name = "EID" id = "EID" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px">
-						<br><br>
-						<label for = "password">Password:</label>
-						<input type = "password" name = "password" id = "password" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px">
+						<table>
+							<tr>
+								<td><label for = "EID"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Employee ID:</span></label></td>
+								<td><input type = "number" name = "EID" id = "EID" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px"></td>
+							</tr>
+							<tr>
+								<td><label for = "password"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Password:</span></label></td>
+								<td><input type = "password" name = "password" id = "password" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px"></td>
+							</tr>
+						</table>
 						<br><br>
 					</form>
 				</div>
-				<button id = round_box style = "background: navy; font-family: 'Inter'; color: white; font-size:17px; width:70px; padding: 10px; border-radius: 10px" onclick="SignIn()">Next</button>
+				<button class="buttonAC" style = "font-family: 'Inter'; font-size:17px; padding: 10px; border-radius: 10px" onclick="SignIn()"><span><b>Next</b></span></button>
 			<p align = "center" style="color: navy; font-size : 15px; font-family: 'Inter'">Not a registered user? Contact Administrator.</p>
 		</div>
 		<script type = "text/javascript" src = "./login.js"></script>

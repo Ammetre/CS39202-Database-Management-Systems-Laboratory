@@ -20,6 +20,7 @@ class Patient(models.Model):
     Gov_ID_Type = models.CharField(max_length=25, validators=[alphabetic])
     Blood_Group = models.CharField(blank=True,null=True,choices=BloodGroupType.choices, max_length=5)
     Blood_Report_ID = models.ForeignKey('Test', on_delete=models.CASCADE,to_field='Report_File')
+    Current_Health = models.CharField(max_length=1023)
     def __str__(self):
         return self.Name
 class Admission_Info(models.Model):

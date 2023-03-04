@@ -8,16 +8,16 @@ function getName(EID){
 }
 
 window.onload = function(){
-	var url = document.location.href,
-		params = url.split('?')[1].split('&'),
-		data = {}, tmp;
-	for (var i = 0, l = params.length; i < l; i++) {
-		tmp = params[i].split('=');
-		data[tmp[0]] = tmp[1];
-		console.log(tmp[0]);
-		console.log(tmp[1]);
-	}
-	document.getElementById('admin-name').innerHTML += " Database Administrator " + getName(data.eid);
+	// var url = document.location.href,
+	// 	params = url.split('?')[1].split('&'),
+	// 	data = {}, tmp;
+	// for (var i = 0, l = params.length; i < l; i++) {
+	// 	tmp = params[i].split('=');
+	// 	data[tmp[0]] = tmp[1];
+	// 	console.log(tmp[0]);
+	// 	console.log(tmp[1]);
+	// }
+	document.getElementById('admin-name').innerHTML += " Database Administrator";// + getName(data.eid);
 }
 
 

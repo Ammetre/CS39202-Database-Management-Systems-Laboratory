@@ -19,8 +19,7 @@ class Patient(models.Model):
     Gov_ID = models.CharField(max_length = 25, unique=True,validators=[alphanumeric])
     Gov_ID_Type = models.CharField(max_length=25, validators=[alphabetic])
     Blood_Group = models.CharField(blank=True,null=True,choices=BloodGroupType.choices, max_length=5)
-    Blood_Report_ID = models.ForeignKey('Test', on_delete=models.CASCADE,to_field='Report_File')
-    Current_Health = models.CharField(max_length=1023)
+    Current_Health = models.CharField(max_length=1023, default='Healthy')
     def __str__(self):
         return self.Name
 class Admission_Info(models.Model):
@@ -33,10 +32,13 @@ class Admission_Info(models.Model):
         return str(self.IID)
     def admit(self):
         self.Date_of_discharge = None
-        self.Room_Number.update()
+        self.Room_Number.occupy()
+        self.Room_Number.save() 
         return
     def discharge(self):
         self.Date_of_discharge = date.today()
+        self.Room_Number.unoccupy()
+        self.Room_Number.save()
         return
 class Doctor(models.Model):
     EID = models.BigIntegerField(unique=True,primary_key=True)
@@ -46,25 +48,6 @@ class Doctor(models.Model):
     Day_Availability = models.PositiveSmallIntegerField(validators=[MaxValueValidator(127), MinValueValidator(0)])
     def __str__(self) -> str:
         return self.Name
-class Appointment(models.Model):
-    StatusType = models.TextChoices('StatusType', 'Done Pending')
-    AID = models.BigIntegerField(unique=True, primary_key=True)
-    PID = models.ForeignKey(Patient, on_delete=models.CASCADE, to_field='PID')
-    EID = models.ForeignKey(Doctor, on_delete=models.CASCADE, to_field='EID')
-    RID = models.ForeignKey('Treatment', on_delete=models.CASCADE, to_field='RID')
-    Date = models.DateField(default=date.today)
-    Status = models.CharField(choices = StatusType.choices, max_length=10)
-    def __str__(self):
-        return str(self.AID)
-    def set_time(self, day):
-        self.Status = 'Pending'
-    def try_done(self, remedy):
-        if(date.today >= self.Date):
-            self.Status = 'Done'
-            self.RID = remedy
-        else:
-            pass
-        return
 class Test(models.Model):
     TID = models.BigIntegerField(unique=True, primary_key = True)
     PID = models.ForeignKey(Patient, on_delete= models.CASCADE, to_field='PID')
@@ -90,8 +73,11 @@ class Room(models.Model):
     Availability = models.BooleanField(default=True)
     def __str__(self) -> str:
         return str(self.Room_Number)
-    def update(self):
-        Availability = not Availability
+    def occupy(self):
+        self.Availability = False
+        return
+    def unoccupy(self):
+        self.Availability = True
         return
 class user(models.Model):
     EID = models.BigIntegerField(unique=True,primary_key=True)
@@ -100,3 +86,20 @@ class user(models.Model):
     role = models.CharField(choices = roleType.choices, max_length=30)
     def __str__(self) -> str:
         return str(self.EID)
+class Appointment(models.Model):
+    StatusType = models.TextChoices('StatusType', 'Done Pending')
+    AID = models.BigIntegerField(unique=True, primary_key=True)
+    PID = models.ForeignKey(Patient, on_delete=models.CASCADE, to_field='PID')
+    EID = models.ForeignKey(Doctor, on_delete=models.CASCADE, to_field='EID')
+    RID = models.ForeignKey('Treatment', on_delete=models.CASCADE, to_field='RID', null=True)
+    Date = models.DateField(default=date.today)
+    Status = models.CharField(choices = StatusType.choices, max_length=10, default = 'Pending')
+    def __str__(self):
+        return str(self.AID)
+    def try_done(self, remedy):
+        if(date.today() >= self.Date):
+            self.Status = 'Done'
+            self.RID = Treatment.objects.get(RID=remedy)
+        else:
+            pass
+        return

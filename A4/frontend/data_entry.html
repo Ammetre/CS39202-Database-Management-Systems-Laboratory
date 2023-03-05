@@ -39,6 +39,60 @@
 		<br>
 		<hr color = #3A1078 style="margin: 10px">
 		<br>
+		<div id = round_box_noblur style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(252, 226, 42, 0.7); width: 800px">
+			<form style = "font-size: 20px; font-family: 'Inter'" id = 'test-form'>
+				<table align = center>
+					<tr>
+						<td align = right valign = center>
+							<label for = "PID"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Patient ID:</span></label>
+						</td>
+						<td align = center valign = center>
+							<input type = "number" name = "PID" id = "PID" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px">
+						</td>
+					</tr>
+					<tr>
+						<td align = right valign = center>
+							<label for = "EID"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Doctor in Charge:</span></label>
+						</td>
+						<td align = center valign = center>
+							<input type = "number" name = "EID" id = "EID" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px">
+						</td>
+					</tr>
+					<tr>
+						<td align = right valign = center>
+							<label for = "date"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px; width : 1000px">Date:</span></label>
+						</td>
+						<td align = center valign = center>
+							<input type = "date" name = "date" id = "date" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px">
+						</td>
+					</tr>
+					<tr>
+						<td align = right valign = center>
+							<label for = "type"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Type of Test:</span></label>
+						</td>
+						<td align = center valign = center>
+							<input type = "text" name = "type" id = "type" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px">
+						</td>
+					</tr>
+
+					<tr>
+						<td align = right valign = center>
+							<label for = "type"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Report:</span></label>
+						</td>
+						<td align = center valign = center>
+							<textarea type = "number" name = "report" id = "report" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px" cols = "40" rows = "5"></textarea>
+						</td>
+					</tr>
+					<tr align = center>
+						<td colspan = "2" align = center>
+							<div class = "buttonFF" style = "background: #db3e04; font-family: 'Inter'; color: white; font-size:23px; margin-top: 5px; height: 30px; padding: 10px; width:300px;" onclick="addTest()" align = center>
+								<span>Add Test Information</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
 
 		<!-- <p id = 'patient-info' style="padding-left: 20px; color: #D61355; font-size: 23px; font-family: 'Inter';">No Patient Selected</p> -->
 

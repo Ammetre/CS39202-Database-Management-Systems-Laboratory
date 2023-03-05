@@ -19,5 +19,6 @@ urlpatterns = [
     path('users/',views.userView.as_view()),
     path('users/<int:id>/',views.userView.as_view()),
     path('patients/<int:id>/tests/',views.StatView.as_view()),
-    path('doctors/<int:id>/patients/',views.TreatedView.as_view())
+    path('doctors/<int:id>/patients/',views.TreatedView.as_view()),
+    path('doctors/<int:id>/tests/',views.TestedView.as_view()),
 ]

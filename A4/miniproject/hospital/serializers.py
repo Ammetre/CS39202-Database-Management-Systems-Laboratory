@@ -137,7 +137,6 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
     Room_Number = serializers.SerializerMethodField('roomID')
     Patient = serializers.SerializerMethodField('pat_name')
     Current_Health = serializers.SerializerMethodField('health_stat')
-    PID = serializers.SerializerMethodField('patID')
     EID = serializers.SerializerMethodField('docID')
     def to_internal_value(self, data):
         internal_value = super(AppointmentSerializer, self).to_internal_value(data)
@@ -209,3 +208,6 @@ class userSerializer(serializers.ModelSerializer):
             'Password_hash',
             'role'
         )
+    def create(self, validated_data):
+        T = user.objects.create(EID=validated_data.get('EID'),Passowrd_hash=validated_data.get('Password_hash'),role=validated_data.get('role'))
+        return T

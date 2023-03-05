@@ -206,3 +206,27 @@ input:focus, textarea:focus, select:focus {
   cursor: inherit;
   line-height: inherit;
 } */
+
+#patients-treated-table {
+  border-collapse: collapse;
+  width: 100%;
+  border: solid white 2px;
+  border-radius: 20px;
+}
+
+#patients-treated-table td, #patients-treated-table th {
+}
+
+#patients-treated-table tr {
+  background-color: rgba(219, 62, 4, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+#patients-treated-table tr:hover {background-color: #ddd;}
+
+#patients-treated-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: rgb(219, 62, 4);
+  color: white;
+}

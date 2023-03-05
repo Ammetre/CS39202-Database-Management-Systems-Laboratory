@@ -28,7 +28,7 @@ a{
 }
 
 th, td {
-  padding: 10px;
+  padding: 5px;
 }
 
 input, textarea, select {
@@ -210,19 +210,18 @@ input:focus, textarea:focus, select:focus {
 #patients-treated-table {
   border-collapse: collapse;
   width: 100%;
-  border: solid white 2px;
-  border-radius: 20px;
 }
 
 #patients-treated-table td, #patients-treated-table th {
 }
 
 #patients-treated-table tr {
-  background-color: rgba(219, 62, 4, 0.3);
-  backdrop-filter: blur(10px);
+  background-color: rgba(219, 62, 4, 0.2);
 }
 
-#patients-treated-table tr:hover {background-color: #ddd;}
+#patients-treated-table tbody {
+  backdrop-filter: blur(20px);
+}
 
 #patients-treated-table th {
   padding-top: 12px;

@@ -66,8 +66,8 @@ class Test(models.Model):
 class Treatment(models.Model):
     RID = models.BigIntegerField(unique=True, primary_key=True)
     Info = models.CharField(max_length=1000)
-    StatusType = models.TextChoice('StatusType', 'Done Pending')
-    Status = models.CharField(max_length=20, choices=StatusType.choices)
+    StatusType = models.TextChoices('StatusType', 'Done Pending')
+    Status = models.CharField(max_length=20, choices=StatusType.choices, default='Pending')
     Date = models.DateField(default=date.today)
     def __str__(self) -> str:
         return str(self.RID)

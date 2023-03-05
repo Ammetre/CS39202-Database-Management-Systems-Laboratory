@@ -1,3 +1,7 @@
+html{
+  scroll-behavior: smooth;
+}
+
 p, ul{
 	font-family: "Inter";
 	font-size: 27px;

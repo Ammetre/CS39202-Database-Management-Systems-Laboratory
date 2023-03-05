@@ -17,32 +17,53 @@
 	<body>
 		<div style = " margin: 0px; height: 70px; background: #db3e04; border-radius: 10px">
 			<br>
-			<div style = "color: white; font-size: 25px; font-family: Inter; padding-left: 20px; float: left">Hospital Management System</div>
+			<div style = "color: white; font-size: 25px; font-family: Inter; padding-left: 20px; float: left"><a href = "index.html" style = "text-decoration:none"><a href = "index.html" style = "text-decoration:none; color:white;">Hospital Management System</a></div>
 			<div id = "doctor-name" style = "color: white; font-size: 25px; font-family: Inter; padding-right: 30px; float: right;" align = right>Welcome,</div>
 		</div>
 
 		<br>
-		<div style="float: left">
-			<p style ="padding-left: 20px; color: #db3e04; font-size: 23px; font-family: Inter;"><b>Ask for patient information</b></p>
-			<form onkeydown="return event.key != 'Enter';" style = "font-size: 23px; font-family: 'Inter'; padding-left: 20px;" id = "patient-form">
-				<br>
-				<label for = "PID" style = "float: left; margin-right:5px; margin-top: 8px;">Patient ID:</label>
-				<input type = "number" name = "PID" id = "PID" style = "font-size: 23px; font-family: 'Inter'; border-radius: 10px; float: left; margin-top: 5px">
-				<div style = "border: 2px solid white; margin-left: 10px; background: #F94A29; font-family: 'Inter'; color: white; font-size:23px; width:75px; padding: 10px; border-radius: 10px; float: left;" onclick="FetchPatient()" align = center>Search</div>
-			</form>
-		</div>
+		<table align = center style = "width: 80%">
+			<tr align = "center"><td>
+			<div style="float: left">
+				<p style ="padding-left: 20px; color: #db3e04; font-size: 23px; font-family: Inter;"><b>Ask for patient information</b></p>
+				<form onkeydown="return event.key != 'Enter';" style = "font-size: 23px; font-family: 'Inter'; padding-left: 20px;" id = "patient-form">
+					<br>
+					<label for = "PID" style = "float: left; margin-right:5px; margin-top: 8px;">Patient ID:</label>
+					<input type = "number" name = "PID" id = "PID" style = "font-size: 23px; font-family: 'Inter'; border-radius: 10px; float: left; margin-top: 5px">
+					<div style = "border: 2px solid white; margin-left: 10px; background: #F94A29; font-family: 'Inter'; color: white; font-size:23px; width:75px; padding: 10px; border-radius: 10px; float: left;" onclick="FetchPatient()" align = center>Search</div>
+				</form>
+			</div>
 
-<!-- 	<br>
+			</td align = "center"><td>
+			<table border="2px" style="float :right; background-color: #db3e04; border-radius: 10px" align="right" id = "patients-treated-table">
+				<tr>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; color: white;" colspan="4">
+						<i><b>Patients Treated</b></i>
+					</td>
+				</tr>
+				<tr>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; color: white; width: 70px">
+						<i>Patient ID</i>
+					</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; color: white; width: 300px">
+						<i>Name</i>
+					</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; color: white; width: 70px">
+						<i>Appointment ID</i>
+					</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; color: white; width: 90px">
+						<i>Date</i>
+					</td>
+				</tr>
+			</table>
+			</td></tr>
+		</table>
+
 		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<hr color = #db3e04 style="margin: 10px">
-		<br> -->
-		<div id = round_box_noblur style="float: right; padding; border-radius: 10px; background-color: #FCE22A">
+		<hr color = #db3e04>
+		<br> 
+
+		<div id = round_box_noblur style="padding; border-radius: 10px; background-color: #FCE22A">
 			<p id = 'patient-info' style="padding: 20px; color: #db3e04; font-size: 25px; font-family: 'Inter';">No Patient Selected</p>
 		</div>
 

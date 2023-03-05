@@ -38,15 +38,15 @@ function treatmentForm(){
 						<p style = \"margin-right:5px; margin-top: 8px; color: #db3e04;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
 						<br>
 						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #db3e04;\">Treatment:</label>
-						<textarea rows = "4" cols = "50" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea>
+						<textarea rows = "4" cols = "30" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea>
 						<br>
-						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #db3e04; float: left;\">Date:</label>
+						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #db3e04;\">Date:</label> <br>
 						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\">
 						<br><br>
 					</form>
 				</div>
 				<br>
-				<div style = \"border: 2px solid white; margin: 10px; background: #F94A29; font-family: \'Inter\'; color: white; font-size:25px; width:250px; padding: 10px; border-radius: 10px;\" align = center onclick=\"issueTreatment()\">Schedule Treamtment</div>
+				<div style = \"border: 2px solid white; margin: 10px; background: #F94A29; font-family: \'Inter\'; color: white; font-size:25px; width:270px; padding: 10px; border-radius: 10px;\" align = center onclick=\"issueTreatment()\">Schedule Treatment</div>
 				`;
 }
 
@@ -68,5 +68,6 @@ function FetchPatient(){
 		patientInfo.innerHTML = "Patient Not Found!";
 		return;
 	}
-	patientInfo.innerHTML = getPatientInfo(PID);
+	patientInfo.innerHTML = getPatientInfo(PID) + treatmentForm();
+	window.scrollTo(0, document.body.scrollHeight);
 }

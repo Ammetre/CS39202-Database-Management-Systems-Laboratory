@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import random
-from .models import Doctor, Patient, Appointment, Admission_Info, Test
+from .models import Doctor, Patient, Appointment, Admission_Info, Test, Room
 class PatientSerializer(serializers.ModelSerializer):
     PID = serializers.IntegerField(required=True)
     Name = serializers.CharField(max_length=100, required=True)
@@ -115,7 +115,7 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
     PID = serializers.IntegerField(required=True)
     Room_Number = serializers.IntegerField(required=True)
     def create(self, validated_data):
-        T = Admission_Info.objects.create(IID=validated_data.get('IID'),PID=validated_data.get('PID'),Gov_ID=validated_data.get('Gov_ID'))
+        T = Admission_Info.objects.create(IID=validated_data.get('IID'),PID=Patient.objects.get(PID=validated_data.get('PID')),Room_Number = Room.objects.get(Room_Number=validated_data.get('Room_Number')))
         if(str(validated_data.get('Admit'))!='None'):
             T.Date_of_admission = validated_data.get('Admit')
         T.admit()
@@ -136,7 +136,7 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
         return instance
     def update(self, instance, validated_data):
         # Once the request data has been validated, we can update the todo item instance in the database
-        instance.Name = validated_data.get('Name', instance.Name)
+        instance.discharge()
         instance.save()
         return instance
 class StatSerializer(serializers.ModelSerializer):

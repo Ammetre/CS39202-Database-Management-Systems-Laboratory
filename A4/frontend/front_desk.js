@@ -1,10 +1,17 @@
 // Subham Ghosh, Aritra Mitra, Anubhav Dhar
 
-let PID = -1;
-
 function getName(EID){
 	// do database query here
 	return "Name(" + EID + ")";
+}
+function getPatientName(PID){
+	//do database query
+	const patientName = "PatientName(" + PID + ")";
+	if(PID == -1){ // add patient not found logic
+		return "-1";
+	}else{
+		return patientName; // add patient name
+	}
 }
 
 window.onload = function(){
@@ -15,58 +22,61 @@ window.onload = function(){
 		tmp = params[i].split('=');
 		data[tmp[0]] = tmp[1];
 	}
-	document.getElementById('doctor-name').innerHTML += " Front-Desk Operator " + getName(data.eid);
+	document.getElementById('operator-name').innerHTML += " Front-Desk Operator " + getName(data.eid);
 }
 
-function getPatientInfo(){
-	// do database query here
-	return `<b>Patient Information</b><br>
-				<ul style = \"color: #D61355; font-size: 23px; font-family: \'Inter\';\">
-					<li> Patient ID : ` + PID +
-				`</ul>`;
+function scrollToDischarge(){
+	document.getElementById('discharge').scrollIntoView();
 }
 
-function geneterateNewRID(){
+function scrollToAdmit(){
+	document.getElementById('admit').scrollIntoView();
+}
+
+function scrollToRegister(){
+	document.getElementById('reg').scrollIntoView();
+}
+
+
+function generateNewPID(){
 	// do database query to get distinct remedy ID
 	return 0;
 }
 
-function treatmentForm(){
-		return `<div>
-					<form style = \"font-size: 23px; font-family: \'Inter\'; padding-left: 20px;\" id = \"treatment-form\">
-						<br>
-						<p style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
-						<br>
-						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #D61355;\">Treatment:</label>
-						<textarea rows = "4" cols = "50" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea>
-						<br><br>
-						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Date:</label>
-						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\">
-						<br><br>
-					</form>
-				</div>
-				<br>
-				<div style = \"border: 2px solid white; margin: 10px; background: #F94A29; font-family: \'Inter\'; color: white; font-size:23px; width:250px; padding: 10px; border-radius: 10px;\" align = center onclick=\"issueTreatment()\">Schedule Treamtment</div>
-				`;
+function RegisterPatient(){
+	const PID = generateNewPID();
+	const name = document.forms['reg-form'].name.value;
+	const gov_id = document.forms['reg-form'].gov_id.value;
+	const gov_id_type = document.forms['reg-form'].gov_id_type.value;
+	const blood_group = document.forms['reg-form'].blood_group.value;
+	const curr_health = document.forms['reg-form'].curr_health.value;
+	// add database insertion here
+	alert(`PID = ` + PID + `\nName = ` + name + `\ngov_id = ` + gov_id + `\ngov_id_type = ` + gov_id_type + `\nblood_group = ` + blood_group + `\ncurr_health = ` + curr_health + `\n`);
 }
 
-function issueTreatment(){
-	const treatmentPrescribed = document.forms['treatment-form'].treatment.value;
-	const treatmentDate = document.forms['treatment-form']['treatment-date'].value;
-	alert(getName(PID) + ' is prescribed ' + treatmentPrescribed + " on " + treatmentDate);
-}
+function AdmitPatient(){
+	const PID = document.forms['admit-form'].PID.value;
+	const patientName = getPatientName(PID);
 
-function notFound(PID){
-	// do database query here
-	return false;
-}
-
-function FetchPatient(){
-	PID = document.forms['patient-form'].PID.value;
-	const patientInfo = document.getElementById('patient-info');
-	if(notFound(PID) == true){
-		patientInfo.innerHTML = "Patient Not Found!";
+	if(patientName === "-1"){
+		alert('Patient Not Found!');
 		return;
 	}
-	patientInfo.innerHTML = getPatientInfo(PID) + treatmentForm();
+
+	// add database insertion here
+	alert(`PID = ` + PID + `\nName = ` + patientName + `\nADMITTED`);
+}
+
+
+function DischargePatient(){
+	const PID = document.forms['discharge-form'].PID.value;
+	const patientName = getPatientName(PID);
+
+	if(patientName === "-1"){
+		alert('Patient Not Found!');
+		return;
+	}
+
+	// add database insertion here
+	alert(`PID = ` + PID + `\nName = ` + patientName + `\nDISCHARGED`);
 }

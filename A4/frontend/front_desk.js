@@ -19,6 +19,7 @@ function getPatientName(PID) {
         const data = JSON.parse(xhr.responseText);
         resolve(data.Name);
       } else {
+      	resolve("-1");
         reject(new Error(`Request failed with status ${xhr.status}`));
       }
     };
@@ -84,9 +85,9 @@ async function AdmitPatient(){
 }
 
 
-function DischargePatient(){
+async function DischargePatient(){
 	const PID = document.forms['discharge-form'].PID.value;
-	const patientName = getPatientName(PID);
+	const patientName = await getPatientName(PID);
 
 	if(patientName === "-1"){
 		alert('Patient Not Found!');

@@ -20,11 +20,10 @@ function getPatientName(PID) {
         resolve(data.Name);
       } else {
       	resolve("-1");
-        reject(new Error(`Request failed with status ${xhr.status}`));
       }
     };
     xhr.onerror = () => {
-      reject(new Error('Request failed'));
+      reject(new Error('Request failed';
     };
     xhr.send();
   });

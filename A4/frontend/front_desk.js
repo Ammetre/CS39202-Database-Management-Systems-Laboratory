@@ -9,7 +9,7 @@ function getPatientName(PID){
 	if(PID == 0){
 		return "-1";
 	}
-	url = "http://127.0.0.1:9000/patients/" + PID + "/";
+	url = "http://127.0.0.1:9000/patients/" + PID + "/?format=json";
 	let patientName = "-2";
 	fetch(url, {
 		method: "GET",
@@ -18,16 +18,11 @@ function getPatientName(PID){
 		// 	// "Access-Control-Allow-Origin": "*",
 		// },
 		mode: "no-cors"
-	})	
+	})
+	
 	.then((response) => {
-		response.text();
 		console.log(response);
-	}).catch((error) => {
-		console.log(error);
 	});
-	// .then((myJson) => {
-	// 	myImage.src = URL.createObjectURL(myJson);
-	// });
 
 	// .then(response => {
 	// 	response.json();

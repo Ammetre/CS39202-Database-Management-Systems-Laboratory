@@ -1,13 +1,35 @@
 // Subham Ghosh, Aritra Mitra, Anubhav Dhar
 
 let patientInfoReceived;
+let doctorName;
 
-function getName(EID){
+function getDoctorName(EID){
 	// do database query here
+	return new Promise((resolve, reject) => {
+		if(PID == 0){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/doctors/" + EID + "/";
+		let patientName = "-2";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data.Name);
+			} else {
+				resolve("[Not Found]");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
 	return patientInfoReceived.Name;
 }
 
-window.onload = function(){
+window.onload = async function(){
 	var url = document.location.href,
 		params = url.split('?')[1].split('&'),
 		data = {}, tmp;
@@ -15,7 +37,8 @@ window.onload = function(){
 		tmp = params[i].split('=');
 		data[tmp[0]] = tmp[1];
 	}
-	document.getElementById('doctor-name').innerHTML += " Doctor " + getName(data.eid);
+	doctorName = await getDoctorName(data.eid);
+	document.getElementById('doctor-name').innerHTML += " Doctor " + doctorName;
 }
 
 function generateNewRID(){
@@ -60,7 +83,7 @@ function issueTreatment(){
 	const treatmentPrescribed = document.forms['treatment-form'].treatment.value;
 	const treatmentDate = document.forms['treatment-form']['treatment-date'].value;
 	const treatmentStatus = document.forms['treatment-form']['treatment-status'].value;
-	alert(getName(PID) + ' is prescribed ' + treatmentPrescribed + " on " + treatmentDate + ' with status ' + treatmentStatus);
+	alert(doctorName + ' is prescribed ' + treatmentPrescribed + " on " + treatmentDate + ' with status ' + treatmentStatus);
 }
 
 function getPatientInfo(PID){

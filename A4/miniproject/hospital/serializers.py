@@ -57,6 +57,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
     Remedy = serializers.SerializerMethodField('remedy_name')
     Patient = serializers.SerializerMethodField('patient_name')
     Doctor = serializers.SerializerMethodField('doc_name')
+    PID = serializers.IntegerField()
+    EID = serializers.IntegerField()
     def patient_name(self, instance):
         return instance.PID.Name
     def doc_name(self,instance):
@@ -66,8 +68,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
             return instance.RID.Info
         else:
             return 'Untreated'
-    def create(self, validated_data):
-        T = Appointment.objects.create(AID=validated_data.get('AID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')))
+    def create(self, data):
+        T = Appointment.objects.create(AID=data.get('AID'),PID=Patient.objects.get(PID=data.get('PID')),EID=Doctor.objects.get(EID=data.get('EID')))
         return T
     class Meta:
         model = Appointment
@@ -77,7 +79,9 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'Doctor',
             'Date',
             'Status',
-            'Remedy'
+            'Remedy',
+            'PID',
+            'EID'
         )
     def post(self, instance, data):
         I = data.get('Perform')
@@ -112,23 +116,33 @@ class AppointmentSerializer(serializers.ModelSerializer):
         return instance
 class Admission_InfoSerializer(serializers.ModelSerializer):
     IID = serializers.IntegerField(required=True)
-    PID = serializers.IntegerField(required=True)
+    PID = serializers.SerializerMethodField('patID')
+    EID = serializers.SerializerMethodField('roomID')
+    Patient = serializers.SerializerMethodField('pat_name')
+    Current_Health = serializers.SerializerMethodField('health_stat')
+    def health_stat(self, instance):
+        return instance.PID.Current_Health
+    def pat_name(self, instance):
+        return instance.PID.Name
+    def patID(self, instance):
+        return instance.PID.PID
+    def roomID(self, instance):
+        return instance.Room_Number.Room_Number
     Room_Number = serializers.IntegerField(required=True)
-    def create(self, validated_data):
-        T = Admission_Info.objects.create(IID=validated_data.get('IID'),PID=Patient.objects.get(PID=validated_data.get('PID')),Room_Number = Room.objects.get(Room_Number=validated_data.get('Room_Number')))
-        if(str(validated_data.get('Admit'))!='None'):
-            T.Date_of_admission = validated_data.get('Admit')
+    def create(self, data):
+        T = Admission_Info.objects.create(IID=data.get('IID'),PID=Patient.objects.get(PID=data.get('PID')),Room_Number = Room.objects.get(Room_Number=data.get('Room_Number')))
+        if(str(data.get('Admit'))!='None'):
+            T.Date_of_admission = data.get('Admit')
         T.admit()
         return T
     class Meta:
         model = Patient
         fields = (
-            'PID',
-            'Name',
-            'BloodGroup',
-            'Gov_ID',
-            'Gov_ID_Type',
-            'Current_Health'
+            'IID',
+            'Patient',
+            'Room_Number',
+            'Current_Health',
+            'PID'
         )
     def post(self, instance, data):
         instance.discharge()

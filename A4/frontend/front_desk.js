@@ -6,12 +6,27 @@ function getName(EID){
 }
 function getPatientName(PID){
 	//do database query
-	const patientName = "PatientName(" + PID + ")";
-	if(PID == -1){ // add patient not found logic
+	if(PID == 0){
 		return "-1";
-	}else{
-		return patientName; // add patient name
 	}
+	url = "127.0.0.1:9000/patients/" + PID + "/";
+	fetch(url, {
+		method: "GET",
+		headers: {
+			"Content-type": "application/json", 
+		}
+	})
+	.then((response) => {
+		response.json();
+		alert(response.status);
+		if(response.status != 200){ // add patient not found logic
+			return "-1";
+		}else{
+			return response.Name; // add patient name
+		}
+	});
+	
+
 }
 
 window.onload = function(){

@@ -192,7 +192,7 @@ input:focus, textarea:focus, select:focus {
   background-color: #DDFFFF;
 }
 
-select {
+/* select {
   // A reset of styles, including removing the default dropdown arrow
   appearance: none;
   // Additional resets for further consistency
@@ -205,4 +205,4 @@ select {
   font-size: inherit;
   cursor: inherit;
   line-height: inherit;
-}
+} */

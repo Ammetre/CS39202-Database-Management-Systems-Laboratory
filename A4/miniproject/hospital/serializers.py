@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import random
-from .models import Doctor, Patient, Appointment, Admission_Info, Test, Room
+from .models import Doctor, Patient, Appointment, Admission_Info, Test, Room, user
 class PatientSerializer(serializers.ModelSerializer):
     PID = serializers.IntegerField(required=True)
     Name = serializers.CharField(max_length=100, required=True)
@@ -200,4 +200,12 @@ class StatSerializer(serializers.ModelSerializer):
             'Status',
             'Test_Type',
             'Report_File',
+        )
+class userSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = user
+        fields = (
+            'EID',
+            'Password_hash',
+            'role'
         )

@@ -4,43 +4,6 @@ function getName(EID){
 	// do database query here
 	return "Name(" + EID + ")";
 }
-<<<<<<< HEAD
-function getPatientName(PID){
-	//do database query
-	if(PID == 0){
-		return "-1";
-	}
-	url = "http://127.0.0.1:9000/patients/" + PID + "/?format=json";
-	let patientName = "-2";
-	fetch(url, {
-		method: "GET",
-		// headers: {
-		// 	"Content-type": "application/json", 
-		// 	// "Access-Control-Allow-Origin": "*",
-		// },
-		mode: "no-cors"
-	})
-	
-	.then((response) => {
-		console.log(response);
-	});
-
-	// .then(response => {
-	// 	response.json();
-	// 	alert(response.json());
-	// });
-	// .then((data) => {
-	// 	alert(data.status);
-	// 	// if(data.status != 200){ // add patient not found logic
-	// 	// 	return "-1";
-	// 	// }else{
-	// 	// 	return data.Name; // add patient name
-	// 	// }
-	// });
-
-	return patientName;
-=======
->>>>>>> 5672248af0c5b3b82f20e5728ab97b5cf60e642d
 
 function getPatientName(PID) {
   return new Promise((resolve, reject) => {

@@ -23,7 +23,7 @@ function getPatientName(PID) {
       }
     };
     xhr.onerror = () => {
-      reject(new Error('Request failed';
+      reject(new Error('Request failed'));
     };
     xhr.send();
   });

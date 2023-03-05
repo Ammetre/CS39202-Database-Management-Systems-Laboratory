@@ -26,7 +26,7 @@ function getPatientInfo(){
 				`</ul>`;
 }
 
-function geneterateNewRID(){
+function generateNewTID(){
 	// do database query to get distinct remedy ID
 	return 0;
 }
@@ -61,12 +61,34 @@ function notFound(PID){
 	return false;
 }
 
-function FetchPatient(){
-	PID = document.forms['patient-form'].PID.value;
-	const patientInfo = document.getElementById('patient-info');
-	if(notFound(PID) == true){
-		patientInfo.innerHTML = "Patient Not Found!";
+function addTest(){
+
+	// test :
+	// 		pending test rakhar dorkar nei
+	//		report file na rekhe text e rakhi na! "COVID: negative", "blood-sugar: 100; blood-pressure: 100; blood-group: 222"
+	//		nahole abar file upload er jhamela korte hobe
+	//		test e remedy id rekhe labh nei. Kono patient test koreo remedy nite nao chaite pare
+
+	const TID = generateNewTID();
+	const EID = document.forms['test-form'].EID.value;
+	const PID = document.forms['test-form'].PID.value;
+	const date = document.forms['test-form'].date.value;
+	const type = document.forms['test-form'].type.value;
+	const report = document.forms['test-form'].report.value;
+
+	//add database insertions with checks:
+	const failedInsert = (EID == -1);
+	if(failedInsert){
+		alert("Failed To Insert!");
 		return;
 	}
-	patientInfo.innerHTML = getPatientInfo(PID) + treatmentForm();
+	alert(	"Added Following Details:\n\n" +
+			"TID (assigned): " + TID + "\n" +
+			"Patient PID: " + PID + "\n" +
+			"Dcotor EID: " + EID + "\n" +
+			"Date: " + date + "\n" +
+			"Type of test: " + type + "\n\n" +
+			"Report: {\n" + report + "\n}"
+			);
+
 }

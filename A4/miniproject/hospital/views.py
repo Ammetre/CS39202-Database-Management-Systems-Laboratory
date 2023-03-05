@@ -374,3 +374,20 @@ class StatView(
 
         # Return a HTTP response object with the list of todo items as JSON
         return Response(read_serializer.data)
+class TreatedView(
+    APIView,
+    UpdateModelMixin,
+    DestroyModelMixin,
+):
+    def get(self, request, id=None):
+        if id:
+            try:
+                t=Doctor.objects.get(EID=id)
+                queryset = []
+                for q in t.appointment_set.all():
+                    queryset.append(q.PID)
+                    queryset = list(set(queryset))
+            except Doctor.DoesNotExist:
+                return Response({'errors':'This doctor does not exist.'}, status=404)
+            read_serializer = PatientSerializer(queryset, many=True)
+        return Response(read_serializer.data)

@@ -17,4 +17,5 @@ urlpatterns = [
     path('admissions/',views.Admission_InfoView.as_view()),
     path('admissions/<int:id>/',views.Admission_InfoView.as_view()),
     path('patients/<int:id>/tests/',views.StatView.as_view()),
+    path('doctors/<int:id>/patients/',views.TreatedView.as_view())
 ]

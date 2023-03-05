@@ -32,28 +32,44 @@ function geneterateNewRID(){
 }
 
 function treatmentForm(){
-		return `<div>
+		return `<hr color = #F94A29>
+					<br>
+					<div>
 					<form style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\" id = \"treatment-form\">
-						<br>
 						<p style = \"margin-right:5px; margin-top: 8px; color: #db3e04;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
-						<br>
-						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #db3e04;\">Treatment:</label>
-						<textarea rows = "4" cols = "30" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea>
-						<br>
-						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #db3e04;\">Date:</label> <br>
-						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\">
 						<br><br>
+						<table>
+						<tr><td><label class = \"badge\" for = \"treatment\" style = \"margin-right:5px; background-color: white; margin-top: 8px; color: #db3e04;\">Treatment:</label></tr></td>
+						<tr><td><textarea rows = "4" cols = "30" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea></tr></td>
+						</table>
+						<br>
+						<table width = 100%>
+						<tr>
+						<td><label class = \"badge\" for = \"treatment-date\" style = \"margin-right:5px; background-color: white; margin-top: 8px; color: #db3e04;\">Date:</label></td>
+						<td><label class = \"badge\" for = \"treatment-status\" style = \"margin-right:5px; background-color: white; margin-top: 8px; color: #db3e04;\">Status:</label></td>
+						</tr>
+						<tr>
+						<td><input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px;\"></td>
+						<td>
+						<select id = \"treatment-status\" name = \"treatment-status\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px;\">
+							<option value="Done">Done</option>
+							<option value="Pending">Pending</option>
+						</select>
+						</td>
+						</tr>
+						</table>
+						<br>
 					</form>
 				</div>
-				<br>
-				<div style = \"border: 2px solid white; margin: 10px; background: #F94A29; font-family: \'Inter\'; color: white; font-size:25px; width:270px; padding: 10px; border-radius: 10px;\" align = center onclick=\"issueTreatment()\">Schedule Treatment</div>
+				<div class = "buttonFF" style = \"margin-left: auto; margin-right: auto; background: #F94A29; font-family: \'Inter\'; color: white; font-size:23px; padding: 10px; width:270px; float: center;\" align = center onclick=\"issueTreatment()\"><span>Schedule Treatment</span></div>
 				`;
 }
 
 function issueTreatment(){
 	const treatmentPrescribed = document.forms['treatment-form'].treatment.value;
 	const treatmentDate = document.forms['treatment-form']['treatment-date'].value;
-	alert(getName(PID) + ' is prescribed ' + treatmentPrescribed + " on " + treatmentDate);
+	const treatmentStatus = document.forms['treatment-form']['treatment-status'].value;
+	alert(getName(PID) + ' is prescribed ' + treatmentPrescribed + " on " + treatmentDate + ' with status ' + treatmentStatus);
 }
 
 function notFound(PID){

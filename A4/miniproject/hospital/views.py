@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
 
-from .models import Patient, Doctor, Admission_Info, Appointment
-from .serializers import PatientSerializer, DoctorSerializer, Admission_InfoSerializer, AppointmentSerializer, StatSerializer
+from .models import Patient, Doctor, Admission_Info, Appointment, user
+from .serializers import PatientSerializer, DoctorSerializer, Admission_InfoSerializer, AppointmentSerializer, StatSerializer, userSerializer
 class Index(
     APIView,
     UpdateModelMixin,
@@ -391,3 +391,49 @@ class TreatedView(
                 return Response({'errors':'This doctor does not exist.'}, status=404)
             read_serializer = PatientSerializer(queryset, many=True)
         return Response(read_serializer.data)
+
+class userView(
+    APIView,
+    UpdateModelMixin,
+    DestroyModelMixin,
+):
+    def get(self, request, id=None):
+        if id:
+        # If an id is provided in the GET request, retrieve the Tournament item by that id
+            try:
+        # Check if the tournament the user wants to update exists
+                queryset = user.objects.get(EID=id)
+            except user.DoesNotExist:
+            # If the tournament does not exist, return an error response
+                return Response({'errors': 'This user does not exist.'}, status=400)
+
+        # Serialize tournament item from Django queryset object to JSON formatted data
+            read_serializer = userSerializer(queryset)
+
+        else:
+        # Get all tournament items from the database using Django's model ORM
+            queryset = user.objects.all()
+
+        # Serialize list of tournament from Django queryset object to JSON formatted data
+            read_serializer = userSerializer(queryset, many=True)
+
+        # Return a HTTP response object with the list of todo items as JSON
+        return Response(read_serializer.data)
+    def post(self, request):
+        # Pass JSON data from user POST request to serializer for validation
+        create_serializer = userSerializer(data=request.data)
+
+        # Check if user POST data passes validation checks from serializer
+        if create_serializer.is_valid():
+
+        # If user data is valid, create a new todo item record in the database
+            todo_item_object = create_serializer.save()
+
+        # Serialize the new todo item from a Python object to JSON format
+            read_serializer = userSerializer(todo_item_object)
+
+        # Return a HTTP response with the newly created todo item data
+            return Response(read_serializer.data, status=201)
+
+        # If the users POST data is not valid, return a 400 response with an error message
+        return Response(create_serializer.errors, status=400)

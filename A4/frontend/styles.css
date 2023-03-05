@@ -229,3 +229,44 @@ input:focus, textarea:focus, select:focus {
   background-color: rgb(219, 62, 4);
   color: white;
 }
+
+label {
+  padding: 4px 6px;
+  line-height: 190%;
+  outline-style: none;
+  transition: all .3s;
+}
+
+.hiddenCB div{
+  display: inline;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hiddenCB input[type="checkbox"],
+.hiddenCB input[type="radio"] {
+  display: none;
+
+}
+
+.hiddenCB label {
+  border-radius: 15px;
+  border: 4px solid #0d8c48;
+  color: #0d8c48;
+  cursor: pointer;
+}
+
+.hiddenCB input[type="checkbox"]+label:hover{
+  background: #0d8c48;
+  color: white;
+}
+
+.hiddenCB input[type="checkbox"]:checked+label {
+  background: #0d8c48;
+  color: white;
+}
+
+/* .hiddenCB input[type="checkbox"]:checked+label:hover{
+  background: rgba(0, 128, 128, 0, .7);
+} */

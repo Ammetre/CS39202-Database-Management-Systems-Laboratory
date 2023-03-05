@@ -9,23 +9,24 @@ function getPatientName(PID){
 	if(PID == 0){
 		return "-1";
 	}
-	url = "127.0.0.1:9000/patients/" + PID + "/";
+	url = "http://127.0.0.1:9000/patients/" + PID + "/";
 	fetch(url, {
 		method: "GET",
 		headers: {
 			"Content-type": "application/json", 
 		}
 	})
+	let patientName = "-2";
 	.then((response) => {
 		response.json();
 		alert(response.status);
 		if(response.status != 200){ // add patient not found logic
-			return "-1";
+			patientName = "-1";
 		}else{
-			return response.Name; // add patient name
+			patientName = response.Name; // add patient name
 		}
 	});
-	
+	return patientName;
 
 }
 

@@ -36,8 +36,7 @@ function treatmentForm(){
 					<br>
 					<div>
 					<form style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\" id = \"treatment-form\">
-						<p style = \"margin-right:5px; margin-top: 8px; color: #db3e04;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
-						<br><br>
+						<p class = \"badge\" for = \"treatment-date\" style = \"margin-left: 8px; background-color: rgba(255, 255, 255, 0.8); margin-top: 8px; color: #db3e04;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></p>
 						<table>
 						<tr><td><label class = \"badge\" for = \"treatment\" style = \"margin-right:5px; background-color: white; margin-top: 8px; color: #db3e04;\">Treatment:</label></tr></td>
 						<tr><td><textarea rows = "4" cols = "30" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 25px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea></tr></td>

@@ -10,22 +10,38 @@ function getPatientName(PID){
 		return "-1";
 	}
 	url = "http://127.0.0.1:9000/patients/" + PID + "/";
+	let patientName = "-2";
 	fetch(url, {
 		method: "GET",
-		headers: {
-			"Content-type": "application/json", 
-		}
-	})
-	let patientName = "-2";
+		// headers: {
+		// 	"Content-type": "application/json", 
+		// 	// "Access-Control-Allow-Origin": "*",
+		// },
+		mode: "no-cors"
+	})	
 	.then((response) => {
-		response.json();
-		alert(response.status);
-		if(response.status != 200){ // add patient not found logic
-			patientName = "-1";
-		}else{
-			patientName = response.Name; // add patient name
-		}
+		response.text();
+		console.log(response);
+	}).catch((error) => {
+		console.log(error);
 	});
+	// .then((myJson) => {
+	// 	myImage.src = URL.createObjectURL(myJson);
+	// });
+
+	// .then(response => {
+	// 	response.json();
+	// 	alert(response.json());
+	// });
+	// .then((data) => {
+	// 	alert(data.status);
+	// 	// if(data.status != 200){ // add patient not found logic
+	// 	// 	return "-1";
+	// 	// }else{
+	// 	// 	return data.Name; // add patient name
+	// 	// }
+	// });
+
 	return patientName;
 
 }

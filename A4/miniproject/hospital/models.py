@@ -21,7 +21,7 @@ class Patient(models.Model):
     Blood_Group = models.CharField(blank=True,null=True,choices=BloodGroupType.choices, max_length=5)
     Current_Health = models.CharField(max_length=1023, default='Healthy')
     def __str__(self):
-        return self.Name
+        return str(self.PID)+": "+self.Name
 class Admission_Info(models.Model):
     IID = models.BigIntegerField(unique=True,primary_key=True)
     PID = models.ForeignKey(Patient,on_delete=models.CASCADE, to_field='PID')
@@ -47,7 +47,7 @@ class Doctor(models.Model):
     Chamber_Number = models.BigIntegerField(unique=True)
     Day_Availability = models.PositiveSmallIntegerField(validators=[MaxValueValidator(127), MinValueValidator(0)])
     def __str__(self) -> str:
-        return self.Name
+        return str(self.EID)+": Dr. "+self.Name
 class Test(models.Model):
     TID = models.BigIntegerField(unique=True, primary_key = True)
     PID = models.ForeignKey(Patient, on_delete= models.CASCADE, to_field='PID')

@@ -57,8 +57,25 @@ class AppointmentSerializer(serializers.ModelSerializer):
     Remedy = serializers.SerializerMethodField('remedy_name')
     Patient = serializers.SerializerMethodField('patient_name')
     Doctor = serializers.SerializerMethodField('doc_name')
-    PID = serializers.IntegerField()
-    EID = serializers.IntegerField()
+    PID = serializers.SerializerMethodField('patID')
+    EID = serializers.SerializerMethodField('docID')
+    def to_internal_value(self, data):
+        internal_value = super(AppointmentSerializer, self).to_internal_value(data)
+        PID_raw = data.get("PID")
+        PID_t = PID_raw
+        internal_value.update({
+            "PID": PID_t
+        })
+        EID_raw = data.get("EID")
+        EID_t = EID_raw
+        internal_value.update({
+            "EID": EID_t
+        })
+        return internal_value
+    def patID(self, instance):
+        return instance.PID.PID
+    def docID(self, instance):
+        return instance.EID.EID
     def patient_name(self, instance):
         return instance.PID.Name
     def doc_name(self,instance):
@@ -68,8 +85,8 @@ class AppointmentSerializer(serializers.ModelSerializer):
             return instance.RID.Info
         else:
             return 'Untreated'
-    def create(self, data):
-        T = Appointment.objects.create(AID=data.get('AID'),PID=Patient.objects.get(PID=data.get('PID')),EID=Doctor.objects.get(EID=data.get('EID')))
+    def create(self, validated_data):
+        T = Appointment.objects.create(AID=validated_data.get('AID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')))
         return T
     class Meta:
         model = Appointment
@@ -117,18 +134,32 @@ class AppointmentSerializer(serializers.ModelSerializer):
 class Admission_InfoSerializer(serializers.ModelSerializer):
     IID = serializers.IntegerField(required=True)
     PID = serializers.SerializerMethodField('patID')
-    EID = serializers.SerializerMethodField('roomID')
+    Room_Number = serializers.SerializerMethodField('roomID')
     Patient = serializers.SerializerMethodField('pat_name')
     Current_Health = serializers.SerializerMethodField('health_stat')
+    PID = serializers.SerializerMethodField('patID')
+    EID = serializers.SerializerMethodField('docID')
+    def to_internal_value(self, data):
+        internal_value = super(AppointmentSerializer, self).to_internal_value(data)
+        PID_raw = data.get("PID")
+        PID_t = PID_raw
+        internal_value.update({
+            "PID": PID_t
+        })
+        RID_raw = data.get("Room_Number")
+        RID_t = RID_raw
+        internal_value.update({
+            "Room_Number": RID_t
+        })
+        return internal_value
+    def patID(self, instance):
+        return instance.PID.PID
     def health_stat(self, instance):
         return instance.PID.Current_Health
     def pat_name(self, instance):
         return instance.PID.Name
-    def patID(self, instance):
-        return instance.PID.PID
     def roomID(self, instance):
         return instance.Room_Number.Room_Number
-    Room_Number = serializers.IntegerField(required=True)
     def create(self, data):
         T = Admission_Info.objects.create(IID=data.get('IID'),PID=Patient.objects.get(PID=data.get('PID')),Room_Number = Room.objects.get(Room_Number=data.get('Room_Number')))
         if(str(data.get('Admit'))!='None'):

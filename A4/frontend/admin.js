@@ -28,9 +28,17 @@ function addUser(){
 	const name = document.forms['add-user'].name.value;
 	const role = document.forms['add-user'].role.value;
 	const passwordHash = MD5(document.forms['add-user'].password.value);
-
+	let availability = 0;
+	let stringDays = '';
+	for (const item of document.forms['add-user'].availability) {
+		availability = availability * 2;
+		if(item.checked) {
+			availability = availability + 1;
+			stringDays += ' ' + item.id.split('-')[1];
+		}
+	}
 	// use database insertion here
-	alert("EID : " + EID + "\nName : " + name + "\nRole: " + role + "\nHash: " + passwordHash);
+	alert("EID : " + EID + "\nName : " + name + "\nRole: " + role + "\nHash: " + passwordHash + "\nAvailable on Days:" + stringDays + ' # ' + availability);
 
 
 }

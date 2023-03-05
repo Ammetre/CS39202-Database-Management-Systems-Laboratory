@@ -4,6 +4,7 @@ function getName(EID){
 	// do database query here
 	return "Name(" + EID + ")";
 }
+<<<<<<< HEAD
 function getPatientName(PID){
 	//do database query
 	if(PID == 0){
@@ -38,8 +39,33 @@ function getPatientName(PID){
 	// });
 
 	return patientName;
+=======
+>>>>>>> 5672248af0c5b3b82f20e5728ab97b5cf60e642d
 
+function getPatientName(PID) {
+  return new Promise((resolve, reject) => {
+		if(PID == 0){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/patients/" + PID + "/";
+		let patientName = "-2";
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const data = JSON.parse(xhr.responseText);
+        resolve(data.Name);
+      } else {
+        reject(new Error(`Request failed with status ${xhr.status}`));
+      }
+    };
+    xhr.onerror = () => {
+      reject(new Error('Request failed'));
+    };
+    xhr.send();
+  });
 }
+
 
 window.onload = function(){
 	var url = document.location.href,
@@ -81,9 +107,9 @@ function RegisterPatient(){
 	alert(`PID = ` + PID + `\nName = ` + name + `\ngov_id = ` + gov_id + `\ngov_id_type = ` + gov_id_type + `\nblood_group = ` + blood_group + `\ncurr_health = ` + curr_health + `\n`);
 }
 
-function AdmitPatient(){
+async function AdmitPatient(){
 	const PID = document.forms['admit-form'].PID.value;
-	const patientName = getPatientName(PID);
+	const patientName = await getPatientName(PID);
 
 	if(patientName === "-1"){
 		alert('Patient Not Found!');

@@ -36,26 +36,44 @@
 		<hr color = #076307 style="margin: 10px; padding: 2px">
 		<br>
 
-		<table border="2px" style="background-color: #BFDB38; border-radius: 10px" align="center" id = "users-table">
+		<table style="overflow: hidden; border-radius: 10px" align="center" id = "users-table">
+			<caption style = "padding: 10px; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.7); font-family: Inter; font-size: 25px; color: #076307;">
+					<b>Existing Users</b>
+			</caption>
 			<tr>
-				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px;" colspan="4">
-					<i><b>Existing Users</b></i>
-				</td>
+				<th valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
+					Employee ID
+				</th>
+				<th valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
+					Name
+				</th>
+				<th valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
+					Role
+				</th>
+				<th valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
+					Delete
+				</th>
+			</tr>
+			<tbody>
+			<tr>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">robin</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">123</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12/34/56</td>
 			</tr>
 			<tr>
-				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
-					<i>Employee ID</i>
-				</td>
-				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
-					<i>Name</i>
-				</td>
-				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
-					<i>Role</i>
-				</td>
-				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 300px">
-					<i>Delete</i>
-				</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">robin</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">123</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12/34/56</td>
 			</tr>
+			<tr>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">robin</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">123</td>
+				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12/34/56</td>
+			</tr>
+		</tbody>
 		</table>
 
 		<!-- <p id = 'patient-info' style="padding-left: 20px; color: #D61355; font-size: 23px; font-family: 'Inter';">No Patient Selected</p> -->
@@ -66,10 +84,10 @@
 		<hr color = #076307 style="margin: 10px; padding: 2px">
 		<br>
 
-		<table style="background-color: #BFDB38; border-radius: 10px" align="center">
+		<table style="backdrop-filter: blur(20px); background-color:rgba(191, 219, 56, 0.5); border-radius: 10px" align="center">
 			<tr>
 				<td valign="center" align="center" style= "font-family: Inter; font-size: 25px; width: 1000px" colspan="2">
-					<i><b>Add New User</b></i>
+					<span class = "badge" style = "background-color: #076307;"><b>Add New User</b></span>
 				</td>
 			</tr>
 			<tr>
@@ -120,7 +138,9 @@
 					</form>
 				</td>
 				<td valign = "center">
-					<div style = "border: 2px solid white; margin-left: 10px; background: #F94A29; font-family: 'Inter'; color: white; font-size:23px; width:150px; padding: 10px; border-radius: 10px;" onclick="addUser()" align = center>Add User</div>
+					<div class = "buttonFF" style = "background: #076307; font-family: 'Inter'; color: white; font-size:23px; margin-top: 5px; height: 30px; padding: 10px; width:150px; float: left;" onclick="FetchPatient()">
+						<span>Add User</span>
+					</div>
 				</td>
 			</tr>
 		</table>

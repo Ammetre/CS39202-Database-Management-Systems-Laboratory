@@ -230,11 +230,33 @@ input:focus, textarea:focus, select:focus {
   color: white;
 }
 
+#users-table {
+  border-collapse: collapse;
+}
+
+#users-table td, #users-table th {
+}
+
+#users-table tr {
+  background-color: rgba(7, 99, 7, 0.2);
+}
+
+#users-table tbody {
+  backdrop-filter: blur(20px);
+}
+
+#users-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: rgb(7, 99, 7);
+  color: white;
+}
+
 label {
   padding: 4px 6px;
   line-height: 190%;
   outline-style: none;
-  transition: all .3s;
+  transition: all .2s;
 }
 
 .hiddenCB div{
@@ -252,18 +274,18 @@ label {
 
 .hiddenCB label {
   border-radius: 15px;
-  border: 4px solid #0d8c48;
-  color: #0d8c48;
+  border: 4px solid #2E3840;
+  color: #2E3840;
   cursor: pointer;
 }
 
 .hiddenCB input[type="checkbox"]+label:hover{
-  background: #0d8c48;
+  background: #2E3840;
   color: white;
 }
 
 .hiddenCB input[type="checkbox"]:checked+label {
-  background: #0d8c48;
+  background: #2E3840;
   color: white;
 }
 

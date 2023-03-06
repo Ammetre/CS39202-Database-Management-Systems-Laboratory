@@ -29,6 +29,27 @@ function getDoctorName(EID){
 	return patientInfoReceived.Name;
 }
 
+function getAppointmentsList(){
+	// do database query to get distinct Patient ID	
+	return new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/appointments/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data);
+			} else {
+				resolve("-1");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+}
+
 window.onload = async function(){
 	var url = document.location.href,
 		params = url.split('?')[1].split('&'),
@@ -37,8 +58,30 @@ window.onload = async function(){
 		tmp = params[i].split('=');
 		data[tmp[0]] = tmp[1];
 	}
+	const EID = data.eid;
 	doctorName = await getDoctorName(data.eid);
 	document.getElementById('doctor-name').innerHTML += " Doctor " + doctorName;
+
+	const patientsTable = document.getElementById('patients-treated-table-interior');
+	const appointmentsData = await getAppointmentsList();
+	if(appointmentsData == "-1"){
+		alert("Error in loading appointments!");
+		return;
+	}
+
+	for(let i = 0; i < appointmentsData.length; ++i){
+		if(EID == appointmentsData[i].EID){
+			let buttonColor = "#076307";
+			patientsTable.innerHTML += `
+				<tr>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].PID + `</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].Patient + `</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].AID + `</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].Date + `</td>
+				</tr>
+			`;
+		}
+	}
 }
 
 function generateNewRID(){

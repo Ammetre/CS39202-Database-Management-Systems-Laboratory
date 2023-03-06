@@ -211,5 +211,5 @@ class userSerializer(serializers.ModelSerializer):
             'role'
         )
     def create(self, validated_data):
-        T = user.objects.create(EID=validated_data.get('EID'),Passowrd_hash=validated_data.get('Password_hash'),role=validated_data.get('role'))
+        T = user.objects.create(EID=validated_data.get('EID'),Password_hash=validated_data.get('Password_hash'),role=validated_data.get('role'))
         return T

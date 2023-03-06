@@ -54,7 +54,7 @@
 					Delete
 				</th>
 			</tr>
-			<tbody>
+			<tbody id = 'users-table-interior'>
 			<tr>
 				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12</td>
 				<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">robin</td>
@@ -97,7 +97,10 @@
 						<table>
 							<tr>
 								<td><label for = "EID"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Employee ID:</span></label></td>
-								<td><input type = "number" name = "EID" id = "EID" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px"></td>
+								<td>
+									<p id = "EID" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px; margin-left: 7px"></p>
+									<!-- <input type = "number" name = "EID" id = "EID" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px"> -->
+								</td>
 							</tr>
 							<tr>
 								<td><label for = "name"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Name:</span></label></td>
@@ -115,7 +118,12 @@
 							</tr>
 							<tr>
 								<td><label for = "password"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Password:</span></label></td>
-								<td><input type = "text" name = "password" id = "password" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px"></td>
+								<td><input type = "password" name = "password" id = "password" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px"></td>
+							</tr>
+
+							<tr>
+								<td><label for = "password2"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Confirm Password:</span></label></td>
+								<td><input type = "password" name = "password2" id = "password2" style = "font-size: 20px; font-family: 'Inter'; border-radius: 10px"></td>
 							</tr>
 							<tr>
 								<td><label for = "availability"><span class="badge" style = "background-color: #FFD24C; color: black; padding: 10px;">Availability:</span></label></td>

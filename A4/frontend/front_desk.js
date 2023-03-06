@@ -91,9 +91,6 @@ async function RegisterPatient(){
 	// add database insertion here
 
 	new Promise((resolve, reject) => {
-		if(PID == 0){
-			return "-1";
-		}
 		url = "http://127.0.0.1:9000/patients/";
 		let patientName = "-2";
 		const xhr = new XMLHttpRequest();

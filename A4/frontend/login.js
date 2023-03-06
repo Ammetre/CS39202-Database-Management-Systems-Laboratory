@@ -1,20 +1,33 @@
 // Subham Ghosh, Aritra Mitra, Anubhav Dhar
 
-function notFound(eid, pass){
-	// enter database check here
-	if(eid === ''){
-		return true;
-	}
-	return false;
-}
+let loggedInUser = "-1";
+let incorrectLogin = false;
 
-function getUserType(eid){
+function getUser(eid){
 	// query database to get entity
-	entities = ['data_entry', 'admin', 'doctor', 'front_desk'];
-	return entities[eid%4];
+	return new Promise((resolve, reject) => {
+		if(0 == eid || eid == ""){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/users/" + eid + "/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data);
+			} else {
+				resolve("-1");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
 }
 
-function SignIn(){
+async function SignIn(){
 	const signInForm = document.forms['signin'];
 	let incorrectLogin = false;
 	const EID = signInForm.EID.value;
@@ -25,19 +38,21 @@ function SignIn(){
 	
 	const passwordHash = MD5(password);
 
+	loggedInUser = await getUser(EID);
+
 	// after this line EID, password and passwordHash have inputs of the form
-	// alert("Clicked Next!\nUsername: " + EID + "\nPassword Hash: " + passwordHash);
-	const notFoundVariable = notFound(EID, passwordHash);
-	if(notFoundVariable){
+	alert("Clicked Next!\nUsername: " + EID + "\nPassword Hash: " + passwordHash);
+	console.log(loggedInUser);
+	if(loggedInUser == -1 || loggedInUser.Password_hash != passwordHash){
 		if(!incorrectLogin){
 			incorrectLogin = true;
-			signInForm.innerHTML += '<p style = "color: red; font-size :15px; font-family : \'Inter\'" align = "center">INCORRECT CREDENTIALS!</p> <br>';
+			document.getElementById('credential-prompt').innerHTML = 'INCORRECT CREDENTIALS<br>';
 		}
 		return;
 	}
 
 	// enter handling code
-	const userType = getUserType(EID);
+	const userType = loggedInUser.role;
 	window.location.href = userType + ".html?eid=" + EID;
 	return;
 	// window.location.href = "https://youtu.be/a3Z7zEc7AXQ";

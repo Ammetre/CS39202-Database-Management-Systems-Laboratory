@@ -64,7 +64,13 @@ function generateNewPID(){
 		xhr.onload = () => {
 			if (xhr.status === 200) {
 				const data = JSON.parse(xhr.responseText);
-				resolve(data.length + 1);
+				let newPID = 1;
+				for(let i = 0; i < data.length; ++i){
+					if(data[i].PID >= newPID){
+						newPID = data[i].PID + 1;
+					}
+				}
+				resolve(newPID);
 			} else {
 				resolve(-1);
 			}

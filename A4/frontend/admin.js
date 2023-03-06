@@ -23,6 +23,29 @@ function formatRole(string){
 	return string;
 }
 
+function printTable(usersData){
+	// console.log(usersData);
+	if(usersData == "-1"){
+		alert("Error in loading users!");
+		return;
+	}
+	const userTable = document.getElementById('users-table-interior');
+	userTable.innerHTML = "";
+	for(let i = 0; i < usersData.length; ++i){
+		let buttonColor = "#076307";
+		if(usersData[i].EID == 1){
+			buttonColor = "#033203";
+		}
+		userTable.innerHTML += `
+			<tr id = ` + usersData[i].EID + `>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].EID + `</td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].name + `</td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(usersData[i].role) + `</td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: ` + buttonColor + `; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + usersData[i].EID + `,` + (usersData[i].role === 'doctor') + `)"><span>&#x1F5D1;</span></div></td>\n` +
+			`</tr>`;
+	}
+}
+
 window.onload = async function(){
 	// var url = document.location.href,
 	// 	params = url.split('?')[1].split('&'),
@@ -35,28 +58,15 @@ window.onload = async function(){
 	// }
 	document.getElementById('admin-name').innerHTML += " Database Administrator";// + getName(data.eid);
 	
-	const userTable = document.getElementById('users-table-interior');
-	const usersData = await getUsersList();
-	if(usersData == "-1"){
-		alert("Error in loading users!");
-		return;
-	}
+	let usersData = await getUsersList();
+	printTable(usersData);
 
+	EID = 1;
 	for(let i = 0; i < usersData.length; ++i){
-		let buttonColor = "#076307";
-		if(usersData[i].EID == 1){
-			buttonColor = "#033203";
+		if(EID <= usersData[i].EID){
+			EID = usersData[i].EID + 1;
 		}
-		userTable.innerHTML += `
-			<tr id = ` + usersData[i].EID + `>\n` +
-				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].EID + `</td>\n` +
-				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + "MEOWMEOW" + `</td>\n` +
-				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(usersData[i].role) + `</td>\n` +
-				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: ` + buttonColor + `; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + usersData[i].EID + `)"><span>&#x1F5D1;</span></div></td>\n` +
-			`</tr>`;
 	}
-
-	EID = usersData.length + 1;
 	document.getElementById('EID').innerHTML = "<b>" + EID + "</b>";
 
 }
@@ -82,13 +92,84 @@ function getUsersList(){
 	});
 }
 
-function DeleteUser(eid){
+function getAppointmentsList(){
+	// do database query to get distinct Patient ID	
+	return new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/appointments/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data);
+			} else {
+				resolve("-1");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+}
+
+async function deleteAppointmentsOfThisDoctor(eid){
+	const appointments = await getAppointmentsList;
+	for(let i = 0; i < appointments.length; ++i){
+		if(appointments[i].EID == eid){
+			new Promise((resolve, reject) => {
+				url = "http://127.0.0.1:9000/appointments/" + appointments[i].aid +"/";
+				const xhr = new XMLHttpRequest();
+				xhr.open('DELETE', url);
+				xhr.onload = () => {
+					resolve(xhr.status);
+				};
+				xhr.onerror = () => {
+					reject(new Error('Request failed'));
+				};
+				xhr.send();
+			});
+		}
+	}
+}
+
+function DeleteUser(eid, isDoctor){
 	// write database deletion
 	if(eid == 1){
 		alert("Cannot Delete Admin");
 		return;
 	}
-	console.log(eid);
+	// alert("Deleting user " + eid + ", " + isDoctor);
+
+	new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/users/" + eid +"/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('DELETE', url);
+		xhr.onload = () => {
+			resolve(xhr.status);
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+	if(isDoctor){
+		new Promise((resolve, reject) => {
+			url = "http://127.0.0.1:9000/doctors/" + eid +"/";
+			const xhr = new XMLHttpRequest();
+			xhr.open('DELETE', url);
+			xhr.onload = () => {
+				resolve(xhr.status);
+			};
+			xhr.onerror = () => {
+				reject(new Error('Request failed'));
+			};
+			xhr.send();
+		});
+		deleteAppointmentsOfThisDoctor(eid);
+	}
+	window.location.href = document.location.href;
+
 }
 
 async function addUser(){
@@ -108,12 +189,18 @@ async function addUser(){
 	}
 	let availability = 0;
 	let stringDays = '';
-	for (const item of document.forms['add-user'].availability) {
-		availability = availability * 2;
-		if(item.checked) {
-			availability = availability + 1;
-			stringDays += ' ' + item.id.split('-')[1];
+	let spz = '';
+	let chamber = -1;
+	if(role === 'doctor'){
+		for (const item of document.forms['add-user'].availability) {
+			availability = availability * 2;
+			if(item.checked) {
+				availability = availability + 1;
+				stringDays += ' ' + item.id.split('-')[1];
+			}
 		}
+		spz = document.forms['add-user'].spz.value;
+		chamber = document.forms['add-user'].chamber.value;
 	}
 	// use database insertion here
 	new Promise((resolve, reject) => {
@@ -128,6 +215,7 @@ async function addUser(){
 		const userDetails = {
 			"EID": EID,
 			"Password_hash": passwordHash,
+			"name": name,
 			"role": role
 		}
 
@@ -142,6 +230,36 @@ async function addUser(){
 		xhr.send(JSON.stringify(userDetails));
 	});
 
+	if(role === "doctor"){
+		new Promise((resolve, reject) => {
+			if(EID == 0){
+				return "-1";
+			}
+			url = "http://127.0.0.1:9000/doctors/";
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', url, true);
+			xhr.setRequestHeader('Content-Type', 'application/json');
+
+			const userDetails = {
+				"EID": EID,
+				"Name": name,
+				"Day_Availability": availability,
+				"Chamber_Number": chamber,
+				"Specialization": spz
+			}
+
+			xhr.ononreadystatechange = function() {
+				alert("Status: " + status);
+				if (this.readyState === 4 && this.status === 200) {
+					var response = JSON.parse(this.responseText);
+					// alert(response);
+					// do something with the response
+				}
+			};
+			xhr.send(JSON.stringify(userDetails));
+		});
+	}
+
 	document.getElementById('users-table-interior').innerHTML += `
 	<tr id = ` + EID + `>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + EID + `</td>\n` +
@@ -154,6 +272,6 @@ async function addUser(){
 
 	EID += 1;
 	document.getElementById('EID').innerHTML = EID;
-
+	window.location.href = document.location.href;
 
 }

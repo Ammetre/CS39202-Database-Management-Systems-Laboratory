@@ -166,15 +166,40 @@ function getAdmissionsList(){
 }
 
 function isAlreadyAdmitted(pid, admissionsList){
-	let admissionFound = false;
 	for(let i = 0; i < admissionsList.length; ++i){
-		if(admissions[i].PID == pid && admissions[i].discharge)
+		if(admissions[i].PID == pid && admissions[i].Date_of_discharge == null){
+			return true;
+		}
 	}
+	return false;
 }
+
+function getIID(admissionsList){
+	let IID = 1;
+	for(let i = 0; i < admissionsList.length; ++i){
+		if(IID <= admissionsList[i].IID){
+			IID = admissionsList[i].IID + 1;
+		}
+	}
+	alert("IID got = " + IID);
+	return IID;
+}
+
+function getRoom(admissionsList){
+	let Room = 100;
+	for(let i = 0; i < admissionsList.length; ++i){
+		if(Room <= admissionsList[i].Room){
+			Room = admissionsList[i].Room + 1;
+		}
+	}
+	alert("Room got = " + Room);
+	return Room;
+}
+
 
 async function AdmitPatient(){
 	const PID = document.forms['admit-form'].PID.value;
-	const patientInfo = await getPatientName(Info);
+	const patientInfo = await getPatientInfo(PID);
 
 	if(patientInfo === "-1"){
 		alert('Patient Not Found!');
@@ -188,7 +213,8 @@ async function AdmitPatient(){
 		alert(patientInfo.Name + " is already admitted!!");
 
 	}
-	const iidAndRoom = getIidAndRoom(admissionsList);
+	const IID = getIID(admissionsList);
+	const Room = getRoom(admissionsList);
 
 	// add database insertion here
 	new Promise((resolve, reject) => {
@@ -197,10 +223,10 @@ async function AdmitPatient(){
 		xhr.open('POST', url, true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
 
-		const patientDetails = {
-			"IID": iidAndRoom.IID,
+		const admissionDetails = {
+			"IID": IID,
 			"Patient": patientInfo.Name,
-			"Room_Number": iidAndRoom.Room,
+			"Room_Number": Room,
 			"Current_Health": patientInfo.Current_Health,
 			"PID": PID
 		}
@@ -213,9 +239,9 @@ async function AdmitPatient(){
 				// do something with the response
 			}
 		};
-		xhr.send(JSON.stringify(patientDetails));
+		xhr.send(JSON.stringify(admissionDetails));
 	});
-	alert(`PID = ` + PID + `\nName = ` + patientName + `\nADMITTED`);
+	alert(`PID = ` + PID + `\nName = ` + patientInfo.Name + `\nADMITTED`);
 }
 
 

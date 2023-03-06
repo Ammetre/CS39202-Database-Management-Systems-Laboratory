@@ -43,13 +43,16 @@ window.onload = async function(){
 	}
 
 	for(let i = 0; i < usersData.length; ++i){
-
+		let buttonColor = "#076307";
+		if(usersData[i].EID == 1){
+			buttonColor = "#033203";
+		}
 		userTable.innerHTML += `
 			<tr id = ` + usersData[i].EID + `>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].EID + `</td>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + "MEOWMEOW" + `</td>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(usersData[i].role) + `</td>\n` +
-				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: #076307; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + usersData[i].EID + `)"><span>&#x1F5D1;</span></div></td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: ` + buttonColor + `; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + usersData[i].EID + `)"><span>&#x1F5D1;</span></div></td>\n` +
 			`</tr>`;
 	}
 
@@ -83,6 +86,7 @@ function DeleteUser(eid){
 	// write database deletion
 	if(eid == 1){
 		alert("Cannot Delete Admin");
+		return;
 	}
 	console.log(eid);
 }

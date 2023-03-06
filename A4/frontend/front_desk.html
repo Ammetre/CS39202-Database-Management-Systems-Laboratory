@@ -29,14 +29,15 @@
 			<input type = "number" name = "PID" id = "PID" style = "font-size: 23px; font-family: 'Inter'; border-radius: 10px; float: left; margin-top: 5px">
 			<div style = "border: 2px solid white; margin-left: 10px; background: #F94A29; font-family: 'Inter'; color: white; font-size:23px; width:75px; padding: 10px; border-radius: 10px; float: left;" onclick="FetchPatient()" align = center>Search</div>
 		</form> -->
-		<table align = center>
-			<tr style = "background-color: white; border-radius: 10px" border = 1px>
-				<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToRegister()'>Register Patient<td>
-				<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToAdmit()'>Admit Patient<td>
-				<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToDischarge()'>Discharge Patient<td>
-			</tr>
-		</table>
-
+		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 800px">
+			<table align = center>
+				<tr border = 1px>
+					<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToRegister()'>Register Patient</td>
+					<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToAdmit()'>Admit Patient</td>
+					<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToDischarge()'>Discharge Patient</td>
+				</tr>
+			</table>
+		</div>
 
 		<br>
 		<br>

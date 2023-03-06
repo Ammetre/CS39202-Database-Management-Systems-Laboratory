@@ -41,7 +41,7 @@ async function SignIn(){
 	loggedInUser = await getUser(EID);
 
 	// after this line EID, password and passwordHash have inputs of the form
-	alert("Clicked Next!\nUsername: " + EID + "\nPassword Hash: " + passwordHash);
+	// alert("Clicked Next!\nUsername: " + EID + "\nPassword Hash: " + passwordHash);
 	console.log(loggedInUser);
 	if(loggedInUser == -1 || loggedInUser.Password_hash != passwordHash){
 		if(!incorrectLogin){

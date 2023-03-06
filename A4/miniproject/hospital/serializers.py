@@ -140,7 +140,6 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
     Room_Number = serializers.SerializerMethodField('roomID')
     Patient = serializers.SerializerMethodField('pat_name')
     Current_Health = serializers.SerializerMethodField('health_stat')
-    EID = serializers.SerializerMethodField('docID')
     def to_internal_value(self, data):
         internal_value = super(Admission_InfoSerializer, self).to_internal_value(data)
         PID_raw = data.get("PID")

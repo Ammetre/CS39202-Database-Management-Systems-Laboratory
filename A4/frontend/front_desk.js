@@ -1,11 +1,29 @@
 // Subham Ghosh, Aritra Mitra, Anubhav Dhar
 
-function getName(EID){
-	// do database query here
-	return "Name(" + EID + ")";
+function getName(EID){	
+	return new Promise((resolve, reject) => {
+		if(EID == 0){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/users/" + EID + "/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data.name);
+			} else {
+				resolve("[Not Found]");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
 }
 
-function getPatientName(PID) {
+function getPatientInfo(PID) {
   return new Promise((resolve, reject) => {
 		if(PID == 0){
 			return "-1";
@@ -17,7 +35,7 @@ function getPatientName(PID) {
     xhr.onload = () => {
       if (xhr.status === 200) {
         const data = JSON.parse(xhr.responseText);
-        resolve(data.Name);
+        resolve(data);
       } else {
       	resolve("-1");
       }
@@ -30,7 +48,7 @@ function getPatientName(PID) {
 }
 
 
-window.onload = function(){
+window.onload = async function(){
 	var url = document.location.href,
 		params = url.split('?')[1].split('&'),
 		data = {}, tmp;
@@ -38,7 +56,8 @@ window.onload = function(){
 		tmp = params[i].split('=');
 		data[tmp[0]] = tmp[1];
 	}
-	document.getElementById('operator-name').innerHTML += " Front-Desk Operator " + getName(data.eid);
+	const loggedInUserName = await getName(data.eid);
+	document.getElementById('operator-name').innerHTML += " Front-Desk Operator " + loggedInUserName;
 }
 
 function scrollToDischarge(){
@@ -126,16 +145,76 @@ async function RegisterPatient(){
 	alert(`Added the following patient: \n\n PID = ` + PID + `\nName = ` + name + `\ngov_id = ` + gov_id + `\ngov_id_type = ` + gov_id_type + `\nblood_group = ` + blood_group + `\ncurr_health = ` + curr_health + `\n`);
 }
 
+function getAdmissionsList(){
+	return new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/admissions/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data);
+			} else {
+				resolve("-1");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+}
+
+function isAlreadyAdmitted(pid, admissionsList){
+	let admissionFound = false;
+	for(let i = 0; i < admissionsList.length; ++i){
+		if(admissions[i].PID == pid && admissions[i].discharge)
+	}
+}
+
 async function AdmitPatient(){
 	const PID = document.forms['admit-form'].PID.value;
-	const patientName = await getPatientName(PID);
+	const patientInfo = await getPatientName(Info);
 
-	if(patientName === "-1"){
+	if(patientInfo === "-1"){
 		alert('Patient Not Found!');
 		return;
 	}
 
+
+	const admissionsList = await getAdmissionsList();
+	const alreadyAdmitted = isAlreadyAdmitted(PID, admissionsList);
+	if(alreadyAdmitted){
+		alert(patientInfo.Name + " is already admitted!!");
+
+	}
+	const iidAndRoom = getIidAndRoom(admissionsList);
+
 	// add database insertion here
+	new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/admissions/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+
+		const patientDetails = {
+			"IID": iidAndRoom.IID,
+			"Patient": patientInfo.Name,
+			"Room_Number": iidAndRoom.Room,
+			"Current_Health": patientInfo.Current_Health,
+			"PID": PID
+		}
+
+		xhr.ononreadystatechange = function() {
+			alert("Status: " + status);
+			if (this.readyState === 4 && this.status === 200) {
+				var response = JSON.parse(this.responseText);
+				alert(response);
+				// do something with the response
+			}
+		};
+		xhr.send(JSON.stringify(patientDetails));
+	});
 	alert(`PID = ` + PID + `\nName = ` + patientName + `\nADMITTED`);
 }
 

@@ -2,12 +2,31 @@
 
 let PID = -1;
 
-function getName(EID){
-	// do database query here
-	return "Name(" + EID + ")";
+function getName(EID){	
+	return new Promise((resolve, reject) => {
+		if(EID == 0){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/users/" + EID + "/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data.name);
+			} else {
+				resolve("[Not Found]");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
 }
 
-window.onload = function(){
+
+window.onload = async function(){
 	var url = document.location.href,
 		params = url.split('?')[1].split('&'),
 		data = {}, tmp;
@@ -15,7 +34,8 @@ window.onload = function(){
 		tmp = params[i].split('=');
 		data[tmp[0]] = tmp[1];
 	}
-	document.getElementById('data_entry-name').innerHTML += " Data Entry Operator " + getName(data.eid);
+	const loggedInUserName = await getName(data.eid);
+	document.getElementById('data_entry-name').innerHTML += " Front-Desk Operator " + loggedInUserName;
 }
 
 function getPatientInfo(){

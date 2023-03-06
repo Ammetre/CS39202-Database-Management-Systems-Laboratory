@@ -6,11 +6,10 @@ let doctorName;
 function getDoctorName(EID){
 	// do database query here
 	return new Promise((resolve, reject) => {
-		if(PID == 0){
+		if(EID == 0){
 			return "-1";
 		}
 		url = "http://127.0.0.1:9000/doctors/" + EID + "/";
-		let patientName = "-2";
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', url);
 		xhr.onload = () => {
@@ -26,7 +25,6 @@ function getDoctorName(EID){
 		};
 		xhr.send();
 	});
-	return patientInfoReceived.Name;
 }
 
 function getAppointmentsList(){

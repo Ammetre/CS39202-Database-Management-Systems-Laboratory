@@ -11,6 +11,7 @@ class PatientSerializer(serializers.ModelSerializer):
         T = Patient.objects.create(Name=validated_data.get('Name'),PID=validated_data.get('PID'),Gov_ID=validated_data.get('Gov_ID'),Gov_ID_Type=validated_data.get('Gov_ID_Type'),Blood_Group=validated_data.get('Blood_Group'))
         if(str(validated_data.get('Current_Health')) != "None"):
             T.Current_Health = validated_data.get('Current_Health')
+            T.save()
         return T
     class Meta:
         model = Patient

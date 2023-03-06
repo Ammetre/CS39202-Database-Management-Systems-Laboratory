@@ -175,7 +175,9 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
             'Patient',
             'Room_Number',
             'Current_Health',
-            'PID'
+            'PID',
+            "Date_of_admission",
+            'Date_of_discharge'
         )
     def post(self, instance, data):
         instance.discharge()
@@ -193,6 +195,24 @@ class StatSerializer(serializers.ModelSerializer):
         return self.EID.Name
     def patient(self):
         return self.PID.Name
+    PID = serializers.SerializerMethodField('patID')
+    Room_Number = serializers.SerializerMethodField('roomID')
+    Patient = serializers.SerializerMethodField('pat_name')
+    Current_Health = serializers.SerializerMethodField('health_stat')
+    EID = serializers.SerializerMethodField('docID')
+    def to_internal_value(self, data):
+        internal_value = super(AppointmentSerializer, self).to_internal_value(data)
+        PID_raw = data.get("PID")
+        PID_t = PID_raw
+        internal_value.update({
+            "PID": PID_t
+        })
+        RID_raw = data.get("Room_Number")
+        RID_t = RID_raw
+        internal_value.update({
+            "Room_Number": RID_t
+        })
+        return internal_value
     class Meta:
         model = Test
         fields = (

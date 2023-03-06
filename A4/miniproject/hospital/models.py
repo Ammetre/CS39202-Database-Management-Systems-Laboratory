@@ -53,16 +53,10 @@ class Test(models.Model):
     PID = models.ForeignKey(Patient, on_delete= models.CASCADE, to_field='PID')
     EID = models.ForeignKey(Doctor,on_delete=models.CASCADE,to_field='EID')
     Date = models.DateField(default=date.today)
-    StatusType = models.TextChoices('StatusType', 'Finished Pending')
-    Status = models.CharField(choices=StatusType.choices, max_length=15, default='Pending')
     Test_Type = models.CharField(max_length=100)
-    Report_File = models.FileField(unique=True,upload_to='uploads/%Y/%m/%d')
+    Report = models.CharField(max_length=4095, default='')
     def __str__(self) -> str:
         return str(self.Report_File)
-    def update(self, filepath):
-        self.StatusType = 'Finished'
-        self.Report_File = File(open(filepath, 'rb'), name = os.path.basename(open(filepath, 'rb').name))
-        return
 class Treatment(models.Model):
     RID = models.BigIntegerField(unique=True, primary_key=True)
     Info = models.CharField(max_length=1000)

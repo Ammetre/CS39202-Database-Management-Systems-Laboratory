@@ -7,6 +7,22 @@ let EID = -1;
 // 	return "Name(" + EID + ")";
 // }
 
+function formatRole(string){
+	if(string == "doctor"){
+		return "Doctor";
+	}
+	if(string == "admin"){
+		return "Database Administrator";
+	}
+	if(string == "front_desk"){
+		return "Front Desk Operator";
+	}
+	if(string == "data_entry"){
+		return "Data Entry Operator";
+	}
+	return string;
+}
+
 window.onload = async function(){
 	// var url = document.location.href,
 	// 	params = url.split('?')[1].split('&'),
@@ -18,11 +34,31 @@ window.onload = async function(){
 	// 	console.log(tmp[1]);
 	// }
 	document.getElementById('admin-name').innerHTML += " Database Administrator";// + getName(data.eid);
-	EID = await generateNewEID();
+	
+	const userTable = document.getElementById('users-table-interior');
+	const usersData = await getUsersList();
+	if(usersData == "-1"){
+		alert("Error in loading users!");
+		return;
+	}
+
+	for(let i = 0; i < usersData.length; ++i){
+
+		userTable.innerHTML += `
+			<tr id = ` + usersData[i].EID + `>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].EID + `</td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + "MEOWMEOW" + `</td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(usersData[i].role) + `</td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: #076307; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + usersData[i].EID + `)"><span>&#x1F5D1;</span></div></td>\n` +
+			`</tr>`;
+	}
+
+	EID = usersData.length + 1;
 	document.getElementById('EID').innerHTML = "<b>" + EID + "</b>";
+
 }
 
-function generateNewEID(){
+function getUsersList(){
 	// do database query to get distinct Patient ID	
 	return new Promise((resolve, reject) => {
 		url = "http://127.0.0.1:9000/users/";
@@ -31,9 +67,9 @@ function generateNewEID(){
 		xhr.onload = () => {
 			if (xhr.status === 200) {
 				const data = JSON.parse(xhr.responseText);
-				resolve(data.length + 1);
+				resolve(data);
 			} else {
-				resolve(-1);
+				resolve("-1");
 			}
 		};
 		xhr.onerror = () => {
@@ -41,6 +77,14 @@ function generateNewEID(){
 		};
 		xhr.send();
 	});
+}
+
+function DeleteUser(eid){
+	// write database deletion
+	if(eid == 1){
+		alert("Cannot Delete Admin");
+	}
+	console.log(eid);
 }
 
 async function addUser(){
@@ -98,9 +142,9 @@ async function addUser(){
 	<tr id = ` + EID + `>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + EID + `</td>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + name + `</td>\n` +
-		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + role + `</td>\n` +
-		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: #076307; font-family: 'Inter'; color: white; font-size:23px; margin-top: 5px; height: 30px; padding: 10px; width:60px; " onclick="DeleteUser(` + EID + `)"><span>&#x1F5D1;</span></div></td>\n` +
-	`</tr>`
+		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(role) + `</td>\n` +
+		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: #076307; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + EID + `)"><span>&#x1F5D1;</span></div></td>\n` +
+	`</tr>`;
 	alert("EID : " + EID + "\nName : " + name + "\nRole: " + role + "\nHash: " + passwordHash + "\nAvailable on Days:" + stringDays + ' # ' + availability);
 
 

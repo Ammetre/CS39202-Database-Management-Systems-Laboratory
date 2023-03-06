@@ -437,6 +437,19 @@ class userView(
 
         # If the users POST data is not valid, return a 400 response with an error message
         return Response(create_serializer.errors, status=400)
+    def delete(self, request, id=None):
+        try:
+      # Check if the todo item the user wants to update exists
+            todo_item = user.objects.get(EID=id)
+        except user.DoesNotExist:
+      # If the todo item does not exist, return an error response
+            return Response({'errors': 'This user does not exist.'}, status=400)
+
+    # Delete the chosen todo item from the database
+        todo_item.delete()
+
+    # Return a HTTP response notifying that the todo item was successfully deleted
+        return Response(status=204)
 class TestedView(
   APIView, # Basic View class provided by the Django Rest Framework
   UpdateModelMixin, # Mixin that allows the basic APIView to handle PUT HTTP requests

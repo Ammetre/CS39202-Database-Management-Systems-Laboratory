@@ -142,7 +142,7 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
     Current_Health = serializers.SerializerMethodField('health_stat')
     EID = serializers.SerializerMethodField('docID')
     def to_internal_value(self, data):
-        internal_value = super(AppointmentSerializer, self).to_internal_value(data)
+        internal_value = super(Admission_InfoSerializer, self).to_internal_value(data)
         PID_raw = data.get("PID")
         PID_t = PID_raw
         internal_value.update({
@@ -169,7 +169,7 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
         T.admit()
         return T
     class Meta:
-        model = Patient
+        model = Admission_Info
         fields = (
             'IID',
             'Patient',

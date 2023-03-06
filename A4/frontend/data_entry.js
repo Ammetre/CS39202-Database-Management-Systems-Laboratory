@@ -2,7 +2,7 @@
 
 let PID = -1;
 
-function getName(EID){	
+function getName(EID){
 	return new Promise((resolve, reject) => {
 		if(EID == 0){
 			return "-1";
@@ -35,7 +35,7 @@ window.onload = async function(){
 		data[tmp[0]] = tmp[1];
 	}
 	const loggedInUserName = await getName(data.eid);
-	document.getElementById('data_entry-name').innerHTML += " Front-Desk Operator " + loggedInUserName;
+	document.getElementById('data_entry-name').innerHTML += " Data Entry Operator " + loggedInUserName;
 }
 
 function getPatientInfo(){

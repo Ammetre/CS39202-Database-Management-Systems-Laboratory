@@ -28,7 +28,7 @@ function getDoctorName(EID){
 }
 
 function getAppointmentsList(){
-	// do database query to get distinct Patient ID	
+	// do database query to get distinct Patient ID
 	return new Promise((resolve, reject) => {
 		url = "http://127.0.0.1:9000/appointments/";
 		const xhr = new XMLHttpRequest();
@@ -124,7 +124,7 @@ function issueTreatment(){
 	const treatmentPrescribed = document.forms['treatment-form'].treatment.value;
 	const treatmentDate = document.forms['treatment-form']['treatment-date'].value;
 	const treatmentStatus = document.forms['treatment-form']['treatment-status'].value;
-	alert(doctorName + ' is prescribed ' + treatmentPrescribed + " on " + treatmentDate + ' with status ' + treatmentStatus);
+	alert(patientInfoReceived.Name + ' is prescribed ' + treatmentPrescribed + " on " + treatmentDate + ' with status ' + treatmentStatus);
 }
 
 function getPatientInfo(PID){
@@ -165,12 +165,12 @@ async function FetchPatient(){
 
 	patientInfoDiv.innerHTML = 	`
 							<ul>
-							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Patient ID: ` + patientInfoReceived.PID + ` 
-							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Patient Name: ` + patientInfoReceived.Name + ` 
-							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Blood Group: ` + patientInfoReceived.Blood_Group + ` 
-							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Govt. ID (number): ` + patientInfoReceived.Gov_ID + ` 
-							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Govt. ID (type): ` + patientInfoReceived.Gov_ID_Type + ` 
-							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Current Health: ` + patientInfoReceived.Current_Health + ` 
+							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Patient ID: ` + patientInfoReceived.PID + `
+							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Patient Name: ` + patientInfoReceived.Name + `
+							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Blood Group: ` + patientInfoReceived.Blood_Group + `
+							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Govt. ID (number): ` + patientInfoReceived.Gov_ID + `
+							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Govt. ID (type): ` + patientInfoReceived.Gov_ID_Type + `
+							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Current Health: ` + patientInfoReceived.Current_Health + `
 							</ul>
 						`
 	patientInfoDiv.innerHTML += treatmentForm();

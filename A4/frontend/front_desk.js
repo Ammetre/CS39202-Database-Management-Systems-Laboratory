@@ -165,34 +165,38 @@ function getAdmissionsList(){
 	});
 }
 
-function isAlreadyAdmitted(pid, admissionsList){
+function getIIDOfPID(pid, admissionsList){
 	for(let i = 0; i < admissionsList.length; ++i){
-		if(admissions[i].PID == pid && admissions[i].Date_of_discharge == null){
-			return true;
+		// console.log(admissionsList[i]);
+		if(admissionsList[i].PID == pid && admissionsList[i].Date_of_discharge == null){
+			return admissionsList[i].IID;
 		}
 	}
-	return false;
+	return -1;
 }
 
-function getIID(admissionsList){
+function getNewIID(admissionsList){
 	let IID = 1;
 	for(let i = 0; i < admissionsList.length; ++i){
 		if(IID <= admissionsList[i].IID){
 			IID = admissionsList[i].IID + 1;
 		}
 	}
-	alert("IID got = " + IID);
+	// alert("IID got = " + IID);
 	return IID;
 }
 
-function getRoom(admissionsList){
+function getNewRoom(admissionsList){
 	let Room = 100;
 	for(let i = 0; i < admissionsList.length; ++i){
-		if(Room <= admissionsList[i].Room){
-			Room = admissionsList[i].Room + 1;
+		// console.log(admissionsList[i]);
+		if(admissionsList[i].Date_of_discharge == null){
+			if(admissionsList[i].Room_Number >= Room){
+				Room = admissionsList[i].Room_Number + 1;
+			}
 		}
 	}
-	alert("Room got = " + Room);
+	// alert("Room got = " + Room);
 	return Room;
 }
 
@@ -200,6 +204,7 @@ function getRoom(admissionsList){
 async function AdmitPatient(){
 	const PID = document.forms['admit-form'].PID.value;
 	const patientInfo = await getPatientInfo(PID);
+	const admissionsList = await getAdmissionsList();
 
 	if(patientInfo === "-1"){
 		alert('Patient Not Found!');
@@ -207,14 +212,14 @@ async function AdmitPatient(){
 	}
 
 
-	const admissionsList = await getAdmissionsList();
-	const alreadyAdmitted = isAlreadyAdmitted(PID, admissionsList);
-	if(alreadyAdmitted){
+	// console.log(admissionsList);
+	const admissionIID = getIIDOfPID(PID, admissionsList);
+	if(admissionIID != -1){
 		alert(patientInfo.Name + " is already admitted!!");
-
+		return;
 	}
-	const IID = getIID(admissionsList);
-	const Room = getRoom(admissionsList);
+	const IID = getNewIID(admissionsList);
+	const Room = getNewRoom(admissionsList);
 
 	// add database insertion here
 	new Promise((resolve, reject) => {
@@ -241,19 +246,49 @@ async function AdmitPatient(){
 		};
 		xhr.send(JSON.stringify(admissionDetails));
 	});
-	alert(`PID = ` + PID + `\nName = ` + patientInfo.Name + `\nADMITTED`);
+	alert(`PID = ` + PID + `\nName = ` + patientInfo.Name + `\nADMITTED in Room: ` + Room + `\nIID : ` + IID);
 }
 
 
 async function DischargePatient(){
 	const PID = document.forms['discharge-form'].PID.value;
-	const patientName = await getPatientName(PID);
+	const patientInfo = await getPatientInfo(PID);
 
-	if(patientName === "-1"){
+	if(patientInfo === "-1"){
 		alert('Patient Not Found!');
 		return;
 	}
 
+
+	const admissionsList = await getAdmissionsList();
+	const IID = getIIDOfPID(PID, admissionsList);
+	if(IID == -1){
+		alert(patientInfo.Name + " is NOT admitted!!");
+		return;
+	}
+
+	new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/admissions/" + IID + "/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('PUT', url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+
+		const admissionDetails = {
+			"IID": IID,
+		}
+
+		xhr.ononreadystatechange = function() {
+			alert("Status: " + status);
+			if (this.readyState === 4 && this.status === 200) {
+				var response = JSON.parse(this.responseText);
+				alert(response);
+				// do something with the response
+			}
+		};
+		xhr.send(JSON.stringify(admissionDetails));
+	});
+
+
 	// add database insertion here
-	alert(`PID = ` + PID + `\nName = ` + patientName + `\nDISCHARGED`);
+	alert(`PID = ` + PID + `\nName = ` + patientInfo.Name + `\nDISCHARGED`);
 }

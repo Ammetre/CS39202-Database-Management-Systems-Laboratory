@@ -15,7 +15,7 @@ alphabetic = RegexValidator(r'^[a-zA-Z ]*$', 'Only alphabetic characters are all
 class Patient(models.Model):
     BloodGroupType = models.TextChoices('BloodGroupType', 'A+ A- B+ B- AB+ AB- O+ O-')
     PID = models.BigIntegerField(unique=True,primary_key=True)
-    Name = models.CharField(max_length = 100, default=names.get_full_name())
+    Name = models.CharField(max_length = 100, default=names.get_full_name)
     Gov_ID = models.CharField(max_length = 25, unique=True,validators=[alphanumeric])
     Gov_ID_Type = models.CharField(max_length=25, validators=[alphabetic])
     Blood_Group = models.CharField(blank=True,null=True,choices=BloodGroupType.choices, max_length=5)
@@ -43,7 +43,7 @@ class Admission_Info(models.Model):
 class Doctor(models.Model):
     EID = models.BigIntegerField(unique=True,primary_key=True)
     Specialization = models.CharField(max_length = 100)
-    Name = models.CharField(max_length = 100, default = names.get_full_name())
+    Name = models.CharField(max_length = 100, default = names.get_full_name)
     Chamber_Number = models.BigIntegerField(unique=True)
     Day_Availability = models.PositiveSmallIntegerField(validators=[MaxValueValidator(127), MinValueValidator(0)])
     def __str__(self) -> str:
@@ -84,6 +84,7 @@ class Room(models.Model):
         return
 class user(models.Model):
     EID = models.BigIntegerField(unique=True,primary_key=True)
+    name = models.CharField(max_length=100,default=names.get_first_name)
     Password_hash = models.CharField(max_length=255)
     roleType = models.TextChoices('roleType','admin doctor front_desk data_entry')
     role = models.CharField(choices = roleType.choices, max_length=30)

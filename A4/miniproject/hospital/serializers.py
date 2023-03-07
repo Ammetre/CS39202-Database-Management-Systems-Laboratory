@@ -165,7 +165,9 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
         T = Admission_Info.objects.create(IID=data.get('IID'),PID=Patient.objects.get(PID=data.get('PID')),Room_Number = Room.objects.get(Room_Number=data.get('Room_Number')))
         if(str(data.get('Admit'))!='None'):
             T.Date_of_admission = data.get('Admit')
+            T.save()
         T.admit()
+        T.save()
         return T
     class Meta:
         model = Admission_Info
@@ -188,6 +190,8 @@ class Admission_InfoSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 class StatSerializer(serializers.ModelSerializer):
+    TID = serializers.IntegerField(required=True)
+    Test_Type = serializers.CharField(required=True)
     Patient_name = serializers.SerializerMethodField('patient')
     Doctor_name = serializers.SerializerMethodField('doctor')
     def doctor(self):
@@ -195,9 +199,6 @@ class StatSerializer(serializers.ModelSerializer):
     def patient(self):
         return self.PID.Name
     PID = serializers.SerializerMethodField('patID')
-    Room_Number = serializers.SerializerMethodField('roomID')
-    Patient = serializers.SerializerMethodField('pat_name')
-    Current_Health = serializers.SerializerMethodField('health_stat')
     EID = serializers.SerializerMethodField('docID')
     def to_internal_value(self, data):
         internal_value = super(AppointmentSerializer, self).to_internal_value(data)
@@ -206,22 +207,34 @@ class StatSerializer(serializers.ModelSerializer):
         internal_value.update({
             "PID": PID_t
         })
-        RID_raw = data.get("Room_Number")
-        RID_t = RID_raw
+        EID_raw = data.get("EID")
+        EID_t = EID_raw
         internal_value.update({
-            "Room_Number": RID_t
+            "EID": EID_t
         })
         return internal_value
+    def patID(self, instance):
+        return instance.PID.PID
+    def docID(self, instance):
+        return instance.EID.EID
     class Meta:
         model = Test
         fields = (
             'TID',
             'Patient_name',
             'Doctor_name',
-            'Status',
             'Test_Type',
-            'Report_File',
+            'Report',
+            'PID',
+            'EID',
+            'Date'
         )
+    def create(self, validated_data):
+        T = Test.objects.create(TID=validated_data.get('TID'),EID=Doctor.objects.get(EID=validated_data.get('EID')),PID=Patient.objects.get(PID=validated_data.get('PID')),Test_Type=validated_data.get('Test_Type'))
+        if(str(validated_data.get('Report'))!='None'):
+            T.Report = validated_data.get('Report')
+            T.save()
+        return T
 class userSerializer(serializers.ModelSerializer):
     class Meta:
         model = user

@@ -102,6 +102,37 @@ function addTest(){
 		alert("Failed To Insert!");
 		return;
 	}
+
+	new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/patients/";
+		let patientName = "-2";
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+
+		const testDetails = {
+			"PID": PID,
+			"Name": name,
+			"Blood_Group": blood_group,
+			"Gov_ID": gov_id,
+			"Gov_ID_Type": gov_id_type,
+			"Current_Health": curr_health
+		}
+
+		xhr.ononreadystatechange = function() {
+			alert("Status: " + status);
+			if (this.readyState === 4 && this.status === 200) {
+				var response = JSON.parse(this.responseText);
+				alert(response);
+				// do something with the response
+			}
+		};
+		xhr.send(JSON.stringify(patientDetails));
+	});
+
+	alert(`Added the following patient: \n\n PID = ` + PID + `\nName = ` + name + `\ngov_id = ` + gov_id + `\ngov_id_type = ` + gov_id_type + `\nblood_group = ` + blood_group + `\ncurr_health = ` + curr_health + `\n`);
+
+
 	alert(	"Added Following Details:\n\n" +
 			"TID (assigned): " + TID + "\n" +
 			"Patient PID: " + PID + "\n" +

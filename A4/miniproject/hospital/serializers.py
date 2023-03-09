@@ -201,7 +201,7 @@ class StatSerializer(serializers.ModelSerializer):
     PID = serializers.SerializerMethodField('patID')
     EID = serializers.SerializerMethodField('docID')
     def to_internal_value(self, data):
-        internal_value = super(AppointmentSerializer, self).to_internal_value(data)
+        internal_value = super(StatSerializer, self).to_internal_value(data)
         PID_raw = data.get("PID")
         PID_t = PID_raw
         internal_value.update({

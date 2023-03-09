@@ -194,10 +194,10 @@ class StatSerializer(serializers.ModelSerializer):
     Test_Type = serializers.CharField(required=True)
     Patient_name = serializers.SerializerMethodField('patient')
     Doctor_name = serializers.SerializerMethodField('doctor')
-    def doctor(self):
-        return self.EID.Name
-    def patient(self):
-        return self.PID.Name
+    def doctor(self, instance):
+        return instance.EID.Name
+    def patient(self, instance):
+        return instance.PID.Name
     PID = serializers.SerializerMethodField('patID')
     EID = serializers.SerializerMethodField('docID')
     def to_internal_value(self, data):
@@ -231,9 +231,11 @@ class StatSerializer(serializers.ModelSerializer):
         )
     def create(self, validated_data):
         T = Test.objects.create(TID=validated_data.get('TID'),EID=Doctor.objects.get(EID=validated_data.get('EID')),PID=Patient.objects.get(PID=validated_data.get('PID')),Test_Type=validated_data.get('Test_Type'))
+        print(T)
         if(str(validated_data.get('Report'))!='None'):
             T.Report = validated_data.get('Report')
             T.save()
+            print(T)
         return T
 class userSerializer(serializers.ModelSerializer):
     class Meta:

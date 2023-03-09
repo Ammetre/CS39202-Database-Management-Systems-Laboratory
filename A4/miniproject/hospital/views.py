@@ -492,7 +492,7 @@ class TestedView(
             todo_item_object = create_serializer.save()
 
         # Serialize the new todo item from a Python object to JSON format
-            read_serializer = userSerializer(todo_item_object)
+            read_serializer = StatSerializer(todo_item_object)
 
         # Return a HTTP response with the newly created todo item data
             return Response(read_serializer.data, status=201)

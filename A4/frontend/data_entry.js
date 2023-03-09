@@ -38,37 +38,59 @@ window.onload = async function(){
 	document.getElementById('data_entry-name').innerHTML += " Data Entry Operator " + loggedInUserName;
 }
 
-function getPatientInfo(){
-	// do database query here
-	return `<b>Patient Information</b><br>
-				<ul style = \"color: #D61355; font-size: 23px; font-family: \'Inter\';\">
-					<li> Patient ID : ` + PID +
-				`</ul>`;
-}
+// function getPatientInfo(){
+// 	// do database query here
+// 	return `<b>Patient Information</b><br>
+// 				<ul style = \"color: #D61355; font-size: 23px; font-family: \'Inter\';\">
+// 					<li> Patient ID : ` + PID +
+// 				`</ul>`;
+// }
 
 function generateNewTID(){
-	// do database query to get distinct remedy ID
-	return 0;
+	return new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/tests/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				let newTID = 1;
+				for(let i = 0; i < data.length; ++i){
+					if(data[i].PID >= newTID){
+						newTID = data[i].TID + 1;
+					}
+				}
+				resolve(newTID);
+			} else {
+				resolve(-1);
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+	return 2;
 }
 
-function treatmentForm(){
-		return `<div>
-					<form style = \"font-size: 23px; font-family: \'Inter\'; padding-left: 20px;\" id = \"treatment-form\">
-						<br>
-						<p style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
-						<br>
-						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #D61355;\">Treatment:</label>
-						<textarea rows = "4" cols = "50" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea>
-						<br>
-						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Date:</label>
-						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\">
-						<br><br>
-					</form>
-				</div>
-				<br>
-				<div style = \"border: 2px solid white; margin: 10px; background: #F94A29; font-family: \'Inter\'; color: white; font-size:23px; width:250px; padding: 10px; border-radius: 10px;\" align = center onclick=\"issueTreatment()\">Schedule Treamtment</div>
-				`;
-}
+// function treatmentForm(){
+// 		return `<div>
+// 					<form style = \"font-size: 23px; font-family: \'Inter\'; padding-left: 20px;\" id = \"treatment-form\">
+// 						<br>
+// 						<p style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Remedy ID: <span style = \"color:black\">` + geneterateNewRID() + `</span></label>
+// 						<br>
+// 						<label for = \"treatment\" style = \"display: block; margin-right:5px; margin-top: 8px; color: #D61355;\">Treatment:</label>
+// 						<textarea rows = "4" cols = "50" type = \"text\" name = \"treatment\" id = \"treatment\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\"></textarea>
+// 						<br>
+// 						<label for = \"treatment-date\" style = \"margin-right:5px; margin-top: 8px; color: #D61355;\">Date:</label>
+// 						<input type = \"date\" name = \"treatment-date\" id = \"treatment-date\" style = \"font-size: 23px; font-family: \'Inter\'; border-radius: 10px; margin-top: 5px\">
+// 						<br><br>
+// 					</form>
+// 				</div>
+// 				<br>
+// 				<div style = \"border: 2px solid white; margin: 10px; background: #F94A29; font-family: \'Inter\'; color: white; font-size:23px; width:250px; padding: 10px; border-radius: 10px;\" align = center onclick=\"issueTreatment()\">Schedule Treamtment</div>
+// 				`;
+// }
 
 function issueTreatment(){
 	const treatmentPrescribed = document.forms['treatment-form'].treatment.value;
@@ -81,7 +103,58 @@ function notFound(PID){
 	return false;
 }
 
-function addTest(){
+function getPatientInfo(PID){
+	// do database query here
+	return new Promise((resolve, reject) => {
+		if(PID == 0){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/patients/" + PID + "/";
+		let patientName = "-2";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data);
+			} else {
+				resolve("-1");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+	return false;
+}
+
+function getdoctorInfo(PID){
+	// do database query here
+	return new Promise((resolve, reject) => {
+		if(PID == 0){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/doctors/" + PID + "/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data);
+			} else {
+				resolve("-1");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+	return false;
+}
+
+async function addTest(){
 
 	// test :
 	// 		pending test rakhar dorkar nei
@@ -89,34 +162,40 @@ function addTest(){
 	//		nahole abar file upload er jhamela korte hobe
 	//		test e remedy id rekhe labh nei. Kono patient test koreo remedy nite nao chaite pare
 
-	const TID = generateNewTID();
 	const EID = document.forms['test-form'].EID.value;
 	const PID = document.forms['test-form'].PID.value;
-	const date = document.forms['test-form'].date.value;
+	// const date = document.forms['test-form'].date.value;
 	const type = document.forms['test-form'].type.value;
 	const report = document.forms['test-form'].report.value;
 
-	//add database insertions with checks:
-	const failedInsert = (EID == -1);
-	if(failedInsert){
-		alert("Failed To Insert!");
+	const patientInfo = await getPatientInfo(PID);
+	if(patientInfo == "-1"){
+		alert("Patient DOes not exist!");
 		return;
 	}
 
+	const doctorInfo = await getdoctorInfo(EID);
+	if(doctorInfo == "-1"){
+		alert("Doctor DOes not exist!");
+		return;
+	}
+
+	const TID = await generateNewTID(PID);
+
 	new Promise((resolve, reject) => {
-		url = "http://127.0.0.1:9000/patients/";
-		let patientName = "-2";
+		url = "http://127.0.0.1:9000/tests/";
 		const xhr = new XMLHttpRequest();
 		xhr.open('POST', url, true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
 
 		const testDetails = {
+			"TID": TID,
 			"PID": PID,
-			"Name": name,
-			"Blood_Group": blood_group,
-			"Gov_ID": gov_id,
-			"Gov_ID_Type": gov_id_type,
-			"Current_Health": curr_health
+			"EID": EID,
+			"Test_Type": type,
+			"Patient_name": patientInfo.Name,
+			"Doctor_name": doctorInfo.Name,
+			"Report": report
 		}
 
 		xhr.ononreadystatechange = function() {
@@ -127,10 +206,9 @@ function addTest(){
 				// do something with the response
 			}
 		};
-		xhr.send(JSON.stringify(patientDetails));
+		xhr.send(JSON.stringify(testDetails));
 	});
 
-	alert(`Added the following patient: \n\n PID = ` + PID + `\nName = ` + name + `\ngov_id = ` + gov_id + `\ngov_id_type = ` + gov_id_type + `\nblood_group = ` + blood_group + `\ncurr_health = ` + curr_health + `\n`);
 
 
 	alert(	"Added Following Details:\n\n" +

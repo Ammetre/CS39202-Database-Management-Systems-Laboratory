@@ -1,4 +1,4 @@
-#!"/home/aritramitra/Documents/Sem 6/DBL/CS39202-Database-Management-Systems-Laboratory/.env/bin/python"
+#!/home/aritramitra/CS39202-Database-Management-Systems-Laboratory/.env/bin/python3
 # EASY-INSTALL-ENTRY-SCRIPT: 'names==0.3.0','console_scripts','names'
 import re
 import sys

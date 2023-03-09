@@ -215,7 +215,6 @@ async function addTest(){
 			"TID (assigned): " + TID + "\n" +
 			"Patient PID: " + PID + "\n" +
 			"Dcotor EID: " + EID + "\n" +
-			"Date: " + date + "\n" +
 			"Type of test: " + type + "\n\n" +
 			"Report: {\n" + report + "\n}"
 			);

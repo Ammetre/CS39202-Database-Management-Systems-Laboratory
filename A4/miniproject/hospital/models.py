@@ -56,7 +56,7 @@ class Test(models.Model):
     Test_Type = models.CharField(max_length=100)
     Report = models.CharField(max_length=4095, default='')
     def __str__(self) -> str:
-        return str(self.Report_File)
+        return str(self.Report)
 class Treatment(models.Model):
     RID = models.BigIntegerField(unique=True, primary_key=True)
     Info = models.CharField(max_length=1000)

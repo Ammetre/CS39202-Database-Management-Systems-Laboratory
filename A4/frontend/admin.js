@@ -191,8 +191,8 @@ function DeleteUser(eid, isDoctor){
 			};
 			xhr.send();
 		});
-		deleteAppointmentsOfThisDoctor(eid);
-		deleteTreatmentsOfThisDoctor(eid);
+		// deleteAppointmentsOfThisDoctor(eid);
+		// deleteTreatmentsOfThisDoctor(eid);
 	}
 	window.location.href = document.location.href;
 

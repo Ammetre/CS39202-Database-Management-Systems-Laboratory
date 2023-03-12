@@ -73,6 +73,11 @@ class AppointmentSerializer(serializers.ModelSerializer):
         internal_value.update({
             "EID": EID_t
         })
+        Date_raw = data.get("Date")
+        Date_t = Date_raw
+        internal_value.update({
+            "Date": Date_t
+        }) 
         return internal_value
     def patID(self, instance):
         return instance.PID.PID
@@ -83,7 +88,7 @@ class AppointmentSerializer(serializers.ModelSerializer):
     def doc_name(self,instance):
         return instance.EID.Name
     def create(self, validated_data):
-        T = Appointment.objects.create(AID=validated_data.get('AID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')))
+        T = Appointment.objects.create(AID=validated_data.get('AID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')),Date=validated_data.get('Date'))
         return T
     class Meta:
         model = Appointment
@@ -97,35 +102,13 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'EID'
         )
     def post(self, instance, data):
-        I = data.get('Perform')
-        try:
-            i = int(I)
-        except:
-            instance.try_done()
-            instance.save()
-            return instance
-        if(i):
-            J = data.get('Date')
-            instance.Date=J
-            instance.save()
-            instance.try_done()
-            instance.save()
+        instance.try_done()
+        instance.save()
         return instance
     def update(self, instance, validated_data):
         # Once the request data has been validated, we can update the todo item instance in the database
-        I = validated_data.get('Perform')
-        try:
-            i = int(I)
-        except:
-            instance.try_done()
-            instance.save()
-            return instance
-        if(i):
-            J = validated_data.get('Date')
-            instance.Date=J
-            instance.save()
-            instance.try_done()
-            instance.save()
+        instance.try_done()
+        instance.save()
         return instance
 class Admission_InfoSerializer(serializers.ModelSerializer):
     IID = serializers.IntegerField(required=True)
@@ -265,6 +248,11 @@ class TreatmentSerializer(serializers.ModelSerializer):
         internal_value.update({
             "Info": Info_t
         })
+        Date_raw = data.get("Date")
+        Date_t = Date_raw
+        internal_value.update({
+            "Date": Date_t
+        })
         return internal_value
     def patID(self, instance):
         return instance.PID.PID
@@ -275,7 +263,7 @@ class TreatmentSerializer(serializers.ModelSerializer):
     def doc_name(self,instance):
         return instance.EID.Name
     def create(self, validated_data):
-        T = Treatment.objects.create(RID=validated_data.get('RID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')),Info=validated_data.get('Info'))
+        T = Treatment.objects.create(RID=validated_data.get('RID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')),Info=validated_data.get('Info'),Date=validated_data.get('Date'))
         return T
     class Meta:
         model = Treatment
@@ -290,33 +278,11 @@ class TreatmentSerializer(serializers.ModelSerializer):
             'Info'
         )
     def post(self, instance, data):
-        I = data.get('Perform')
-        try:
-            i = int(I)
-        except:
-            instance.try_done()
-            instance.save()
-            return instance
-        if(i):
-            J = data.get('Date')
-            instance.Date=J
-            instance.save()
-            instance.try_done()
-            instance.save()
+        instance.try_done()
+        instance.save()
         return instance
     def update(self, instance, validated_data):
         # Once the request data has been validated, we can update the todo item instance in the database
-        I = validated_data.get('Perform')
-        try:
-            i = int(I)
-        except:
-            instance.try_done()
-            instance.save()
-            return instance
-        if(i):
-            J = validated_data.get('Date')
-            instance.Date=J
-            instance.save()
-            instance.try_done()
-            instance.save()
+        instance.try_done()
+        instance.save()
         return instance

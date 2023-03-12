@@ -587,5 +587,21 @@ class TreatmentView(
     # Return a HTTP response notifying that the todo item was successfully deleted
         return Response(status=204)
 
-def emailer(request):
-    print(request);
+class EmailView(
+  APIView, # Basic View class provided by the Django Rest Framework
+  UpdateModelMixin, # Mixin that allows the basic APIView to handle PUT HTTP requests
+  DestroyModelMixin, # Mixin that allows the basic APIView to handle DELETE HTTP requests
+):
+    def post(self, request):
+        sg = SendGridAPIClient('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')
+        message = Mail(
+            from_email='hospital_dbms_kgp@mail.com',
+            to_emails=request.data['to'],
+            subject=request.data['subject'],
+            html_content=request.data['html']
+        )
+        try:
+            response = sg.send(message)
+            return Response({"status": "OK"}, status=201)
+        except Exception as e:
+            return Response({"errors": e.message}, status=201)

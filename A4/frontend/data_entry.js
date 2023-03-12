@@ -78,7 +78,7 @@ function generateNewTID(){
 				const data = JSON.parse(xhr.responseText);
 				let newTID = 1;
 				for(let i = 0; i < data.length; ++i){
-					if(data[i].PID >= newTID){
+					if(data[i].TID >= newTID){
 						newTID = data[i].TID + 1;
 					}
 				}
@@ -265,7 +265,7 @@ async function sendEmail(){
 	// const date = document.forms['test-form'].date.value;
 	const type = document.forms['test-form'].type.value;
 	const report = document.forms['test-form'].report.value;
-	const doctorEmail = getEmail(EID);
+	const doctorEmail = await getEmail(EID);
 
 	const patientInfo = await getPatientInfo(PID);
 	if(patientInfo == "-1"){
@@ -274,14 +274,13 @@ async function sendEmail(){
 	}
 	const patName = patientInfo.Name;
 	const subject_to_send = 'Test [' + insTID + '] of Patient [' + PID + '] ' + patName;
-	const message_to_send_html = "<strong>Type: </strong>" + type + "\n" +
-							                 "<strong>Report</strong>\n" + report + "\n";
+	const message_to_send_html = "<strong>Type: </strong>" + type + "<br>" +
+							                 "<strong>Report</strong><br>" + report + "<br>";
 	const message_to_send_text = "# Type: " + type + "\n" +
 													     "# Report\n" + report + "\n";
-	sgMail.setApiKey('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')
+
 	const msg = {
-  	to: 'hospital_dbms_kgp@mail.com',
-  	from: doctorEmail,
+  	to: doctorEmail,
   	subject: subject_to_send,
   	text: message_to_send_text,
   	html: message_to_send_html,

@@ -237,10 +237,11 @@ class userSerializer(serializers.ModelSerializer):
             'EID',
             'Password_hash',
             'role',
-            'name'
+            'name',
+            'email'
         )
     def create(self, validated_data):
-        T = user.objects.create(EID=validated_data.get('EID'),Password_hash=validated_data.get('Password_hash'),role=validated_data.get('role'),name=validated_data.get('name'))
+        T = user.objects.create(EID=validated_data.get('EID'),Password_hash=validated_data.get('Password_hash'),role=validated_data.get('role'),name=validated_data.get('name'),email=validated_data.get('email'))
         return T
 class TreatmentSerializer(serializers.ModelSerializer):
     Patient = serializers.SerializerMethodField('patient_name')

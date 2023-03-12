@@ -40,6 +40,7 @@ function printTable(usersData){
 			<tr id = ` + usersData[i].EID + `>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].EID + `</td>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].name + `</td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].email + `</td>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(usersData[i].role) + `</td>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: ` + buttonColor + `; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + usersData[i].EID + `,` + (usersData[i].role === 'doctor') + `)"><span>&#x1F5D1;</span></div></td>\n` +
 			`</tr>`;
@@ -57,7 +58,7 @@ window.onload = async function(){
 	// 	console.log(tmp[1]);
 	// }
 	document.getElementById('admin-name').innerHTML += " Database Administrator";// + getName(data.eid);
-	
+
 	let usersData = await getUsersList();
 	printTable(usersData);
 
@@ -72,7 +73,7 @@ window.onload = async function(){
 }
 
 function getUsersList(){
-	// do database query to get distinct Patient ID	
+	// do database query to get distinct Patient ID
 	return new Promise((resolve, reject) => {
 		url = "http://127.0.0.1:9000/users/";
 		const xhr = new XMLHttpRequest();
@@ -93,7 +94,7 @@ function getUsersList(){
 }
 
 function getAppointmentsList(){
-	// do database query to get distinct Patient ID	
+	// do database query to get distinct Patient ID
 	return new Promise((resolve, reject) => {
 		url = "http://127.0.0.1:9000/appointments/";
 		const xhr = new XMLHttpRequest();
@@ -183,6 +184,7 @@ async function addUser(){
 	const role = document.forms['add-user'].role.value;
 	const passwordHash = MD5(document.forms['add-user'].password.value);
 	const passwordHash2 = MD5(document.forms['add-user'].password2.value);
+	const email = document.forms['add-user'].email.value;
 	if(passwordHash != passwordHash2){
 		alert("Passwords do not match!");
 		return;
@@ -216,7 +218,8 @@ async function addUser(){
 			"EID": EID,
 			"Password_hash": passwordHash,
 			"name": name,
-			"role": role
+			"role": role,
+			"email": email
 		}
 
 		xhr.ononreadystatechange = function() {
@@ -264,10 +267,11 @@ async function addUser(){
 	<tr id = ` + EID + `>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + EID + `</td>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + name + `</td>\n` +
+		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + email + `</td>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(role) + `</td>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: #076307; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + EID + `)"><span>&#x1F5D1;</span></div></td>\n` +
 	`</tr>`;
-	alert("EID : " + EID + "\nName : " + name + "\nRole: " + role + "\nHash: " + passwordHash + "\nAvailable on Days:" + stringDays + ' # ' + availability);
+	alert("EID : " + EID + "\nName : " + name +  "\nEmail: " + email + "\nRole: " + role + "\nHash: " + passwordHash + "\nAvailable on Days:" + stringDays + ' # ' + availability);
 
 
 	EID += 1;

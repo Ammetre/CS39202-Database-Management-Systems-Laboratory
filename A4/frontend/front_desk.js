@@ -47,6 +47,29 @@ function getPatientInfo(PID) {
   });
 }
 
+function getDoctorInfo(EID) {
+  return new Promise((resolve, reject) => {
+		if(EID == 0){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/doctors/" + EID + "/";
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        const data = JSON.parse(xhr.responseText);
+        resolve(data);
+      } else {
+      	resolve("-1");
+      }
+    };
+    xhr.onerror = () => {
+      reject(new Error('Request failed'));
+    };
+    xhr.send();
+  });
+}
+
 
 window.onload = async function(){
 	var url = document.location.href,
@@ -70,6 +93,10 @@ function scrollToAdmit(){
 
 function scrollToRegister(){
 	document.getElementById('reg').scrollIntoView();
+}
+
+function scrollToAppointment(){
+	document.getElementById('appointment').scrollIntoView();
 }
 
 
@@ -101,6 +128,35 @@ function generateNewPID(){
 	});
 	return 2;
 }
+
+function generateNewAID(){
+	// do database query to get distinct Patient ID	
+	return new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/appointments/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				let newAID = 1;
+				for(let i = 0; i < data.length; ++i){
+					if(data[i].AID >= newAID){
+						newAID = data[i].AID + 1;
+					}
+				}
+				resolve(newAID);
+			} else {
+				resolve(-1);
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+	return 2;
+}
+
 
 async function RegisterPatient(){
 	const PID = await generateNewPID();
@@ -291,4 +347,70 @@ async function DischargePatient(){
 
 	// add database insertion here
 	alert(`PID = ` + PID + `\nName = ` + patientInfo.Name + `\nDISCHARGED`);
+}
+
+
+function createAppointment(AID, PID, EID, appDate){
+
+	new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/appointments/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+
+		const appointmentDetials = {
+			"AID": AID,
+			"PID": PID,
+			"EID": EID,
+			"Date": appDate
+		}
+
+		xhr.ononreadystatechange = function() {
+			alert("Status: " + status);
+			if (this.readyState === 4 && this.status === 200) {
+				var response = JSON.parse(this.responseText);
+				alert(response);
+				// do something with the response
+			}
+		};
+		xhr.send(JSON.stringify(appointmentDetials));
+	});
+}
+
+async function ScheduleAppointment(){
+
+	const appointmentForm = document.forms['appointment-form'];
+
+	const PID = appointmentForm.PID.value;
+	const patientInfo = await getPatientInfo(PID);
+
+	if(patientInfo === "-1"){
+		alert('Patient Not Found!');
+		return;
+	}
+
+	const EID = appointmentForm.EID.value;
+	const doctorInfo = await getDoctorInfo(EID);
+
+	if(doctorInfo === "-1"){
+		alert('Doctor Not Found!');
+		return;
+	}
+	
+	const appointmentDate = appointmentForm.appDate.value;
+	const dayInt = ((7 - (new Date(appointmentDate)).getDay()) % 7);
+	const res = (1 << dayInt) & doctorInfo.Day_Availability;
+
+	alert("dayInt = " + dayInt + ", avail = " + doctorInfo.Day_Availability + ", \n res = " + res);
+	if(res == 0){
+		alert('Doctor Unavailable on ' + appointmentDate);
+		return;
+	}
+
+
+	const AID = await generateNewAID();
+	await createAppointment(AID, PID, EID, appointmentDate);
+
+	alert(`Appointment Added: \tAID = ` + AID + `\t\nPID = ` + PID + `\t\nEID = ` + EID + `\t\nDate = ` + appointmentDate);
+
 }

@@ -29,12 +29,13 @@
 			<input type = "number" name = "PID" id = "PID" style = "font-size: 23px; font-family: 'Inter'; border-radius: 10px; float: left; margin-top: 5px">
 			<div style = "border: 2px solid white; margin-left: 10px; background: #F94A29; font-family: 'Inter'; color: white; font-size:23px; width:75px; padding: 10px; border-radius: 10px; float: left;" onclick="FetchPatient()" align = center>Search</div>
 		</form> -->
-		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 800px">
+		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 1200px">
 			<table align = center>
 				<tr border = 1px>
-					<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToRegister()'>Register Patient</td>
-					<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToAdmit()'>Admit Patient</td>
-					<td align = center style = "font-size: 27px; font-family: 'Inter'; padding: 20px; width: 250px" onClick = 'scrollToDischarge()'>Discharge Patient</td>
+					<td align = center style = "font-size: 25px; font-family: 'Inter'; padding: 20px; width: 290px" onClick = 'scrollToRegister()'>Register Patient</td>
+					<td align = center style = "font-size: 25px; font-family: 'Inter'; padding: 20px; width: 290px" onClick = 'scrollToAdmit()'>Admit Patient</td>
+					<td align = center style = "font-size: 25px; font-family: 'Inter'; padding: 20px; width: 290px" onClick = 'scrollToDischarge()'>Discharge Patient</td>
+					<td align = center style = "font-size: 25px; font-family: 'Inter'; padding: 20px; width: 290px" onClick = 'scrollToAppointment()'>Schedule Appointment</td>
 				</tr>
 			</table>
 		</div>
@@ -44,7 +45,7 @@
 		<br>
 		<hr color = #58287F style="margin: 10px">
 		<br>
-		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 800px">
+		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 1200px">
 			<p align = center style ="padding-left: 20px; color: black; font-size: 27px; font-family: Inter;" id = 'reg'><b>Register Patient</b></p>
 			<form style = "font-size: 23px; font-family: 'Inter'; padding-left: 20px" id = "reg-form">
 				<table>
@@ -121,7 +122,7 @@
 		<br>
 		<hr color = #58287F style="margin: 10px">
 		<br>
-		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 800px">
+		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 1200px">
 			<p align = center style ="padding-left: 20px; color: black; font-size: 27px; font-family: Inter;" id = 'admit'><b>Admit Patient</b></p>
 			<form onkeydown="return event.key != 'Enter';" style = "font-size: 23px; font-family: 'Inter'; padding-left: 20px" id = "admit-form">
 				<table>
@@ -149,7 +150,7 @@
 		<hr color = #58287F style="margin: 10px">
 		<br>
 
-		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 800px">
+		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 1200px">
 			<p align = center style ="padding-left: 20px; color: black; font-size: 27px; font-family: Inter;" id = 'discharge'><b>Discharge Patient</b></p>
 
 			<form onkeydown="return event.key != 'Enter';" style = "font-size: 23px; font-family: 'Inter'; padding-left: 20px" id = "discharge-form">
@@ -171,6 +172,60 @@
 				</table>
 			</form>
 		</div>
+
+		<br>
+		<br>
+		<br>
+		<hr color = #58287F style="margin: 10px">
+		<br>
+		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(58, 16, 120, 0.3); width: 1200px">
+			<p align = center style ="padding-left: 20px; color: black; font-size: 27px; font-family: Inter;" id = 'appointment'><b>Schedule Appointment</b></p>
+
+			<form style = "font-size: 23px; font-family: 'Inter'; padding-left: 20px" id = "appointment-form">
+				<table>
+					<tr>
+						<td>
+							<label for = "PID" style = "margin-right:5px; margin-top: 8px; font-size: 27px">Patient ID:</label>
+						</td>
+						<td>
+							<input type = number name = "PID" id = "PID" style = "font-size: 23px; font-family: 'Inter'; border-radius: 10px; margin-top: 5px; float:left;">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for = "EID" style = "margin-right:5px; margin-top: 8px; font-size: 27px">Doctor ID:</label>
+						</td>
+						<td>
+							<input type = "text" name = "EID" id = "EID" style = "font-size: 23px; font-family: 'Inter'; border-radius: 10px; margin-top: 5px; float:left;">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for = "appDate" style = "margin-right:5px; margin-top: 8px; font-size: 27px">Date:</label>
+						</td>
+						<td>
+							<input type = "date" name = "appDate" id = "appDate" style = "font-size: 25px; font-family: 'Inter'; border-radius: 10px; margin-top: 5px;">
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td align = left>
+							<div class = "buttonFF" style = "margin-top: 2px; background: #db3e04; font-family: 'Inter'; color: white; font-size:23px; height: 30px; padding: 10px; width:400px;" onclick="ScheduleAppointment()">
+								<span>Schedule Appointment</span></div>
+						</td>
+					</tr>
+				</table>
+
+			</form>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+
+
+
+
 
 
 		<script type = "text/javascript" src = "./front_desk.js"></script>

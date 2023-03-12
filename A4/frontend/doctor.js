@@ -69,6 +69,26 @@ function getTreatmentsList(){
 	});
 }
 
+function getTestsList(){
+	// do database query to get distinct Patient ID
+	return new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/tests/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data);
+			} else {
+				resolve("-1");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+}
 
 window.onload = async function(){
 	var url = document.location.href,
@@ -299,7 +319,42 @@ async function FetchPatient(){
 							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Govt. ID (type): ` + patientInfoReceived.Gov_ID_Type + `
 							<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Current Health: ` + patientInfoReceived.Current_Health + `
 							</ul>
-						`;
+							<br>
+							<ul> <li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Treatments:\n<ul>\n`;
+
+
+	const treatedData = await getTreatmentsList();
+	for(let i = 0; i < treatedData.length; ++i){
+		if(treatedData[i].PID == PID){
+			patientInfoDiv.innerHTML += `
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Treatment ID:` + treatedData[i].RID + `
+									<ul>
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Doctor:` + treatedData[i].Doctor + ` (EID = ` + treatedData[i].EID + `)
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Date:` + treatedData[i].Date + `
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Info:\n` + treatedData[i].Info + `
+									</ul>
+									`
+		}
+	}
+	patientInfoDiv.innerHTML += `</ul></ul><br>
+								<ul><li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Tests:\n<ul>\n`;
+
+	const testsData = await getTestsList();
+	for(let i = 0; i < testsData.length; ++i){
+		if(testsData[i].PID == PID){
+			patientInfoDiv.innerHTML += `
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Test ID:` + testsData[i].TID + `
+									<ul>
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Doctor:` + testsData[i].Doctor_name + ` (EID = ` + testsData[i].EID + `)
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Date:` + testsData[i].Date + `
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Report:<br>` + testsData[i].Report + `
+									</ul>
+									`
+		}
+	}
+
+	patientInfoDiv.innerHTML += `</ul></ul>`
+
 	RID = await generateNewRID();
 	patientInfoDiv.innerHTML += treatmentForm(RID);
 	patientInfoDiv.scrollIntoView();

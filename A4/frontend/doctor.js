@@ -118,9 +118,9 @@ window.onload = async function(){
 
 	for(let i = 0; i < appointmentsData.length; ++i){
 		if(EID == appointmentsData[i].EID && appointmentsData[i].Status == "Pending"){
-			buttonColor = rgba(252, 226, 42, 0.7);
+			buttonColor = 'rgba(252, 226, 42, 0.7)';
 			if(new Date(appointmentsData[i].Date) > (new Date())){
-				buttonColor = rgba(126, 113, 21, 0.7);
+				buttonColor = 'rgba(126, 113, 21, 0.7)';
 			}
 			appointmentsTable.innerHTML += `
 				<tr>

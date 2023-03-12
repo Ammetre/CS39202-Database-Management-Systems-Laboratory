@@ -59,12 +59,20 @@ class Test(models.Model):
         return str(self.Report)
 class Treatment(models.Model):
     RID = models.BigIntegerField(unique=True, primary_key=True)
+    PID = models.ForeignKey(Patient, on_delete=models.CASCADE, to_field='PID', null=True)
+    EID = models.ForeignKey(Doctor, on_delete=models.CASCADE, to_field='EID', null=True)
     Info = models.CharField(max_length=1000)
     StatusType = models.TextChoices('StatusType', 'Done Pending')
     Status = models.CharField(max_length=20, choices=StatusType.choices, default='Pending')
     Date = models.DateField(default=date.today)
     def __str__(self) -> str:
         return str(self.RID)
+    def try_done(self):
+        if(date.today() >= self.Date):
+            self.Status = 'Done'
+        else:
+            pass
+        return
 class Room(models.Model):
     Room_Number = models.BigIntegerField(unique=True,primary_key=True)
     Availability = models.BooleanField(default=True)
@@ -79,6 +87,7 @@ class Room(models.Model):
 class user(models.Model):
     EID = models.BigIntegerField(unique=True,primary_key=True)
     name = models.CharField(max_length=100,default=names.get_first_name)
+    email = models.EmailField(null=True, max_length=100)
     Password_hash = models.CharField(max_length=255)
     roleType = models.TextChoices('roleType','admin doctor front_desk data_entry')
     role = models.CharField(choices = roleType.choices, max_length=30)
@@ -89,15 +98,13 @@ class Appointment(models.Model):
     AID = models.BigIntegerField(unique=True, primary_key=True)
     PID = models.ForeignKey(Patient, on_delete=models.CASCADE, to_field='PID')
     EID = models.ForeignKey(Doctor, on_delete=models.CASCADE, to_field='EID')
-    RID = models.ForeignKey('Treatment', on_delete=models.CASCADE, to_field='RID', null=True)
     Date = models.DateField(default=date.today)
     Status = models.CharField(choices = StatusType.choices, max_length=10, default = 'Pending')
     def __str__(self):
         return str(self.AID)
-    def try_done(self, remedy):
+    def try_done(self):
         if(date.today() >= self.Date):
             self.Status = 'Done'
-            self.RID = Treatment.objects.get(RID=remedy)
         else:
             pass
         return

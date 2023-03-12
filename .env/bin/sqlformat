@@ -1,4 +1,6 @@
-#!/home/aritramitra/CS39202-Database-Management-Systems-Laboratory/.env/bin/python3
+#!/bin/sh
+'''exec' "/home/aritramitra/Documents/Sem 6/DBL/CS39202-Database-Management-Systems-Laboratory/.env/bin/python" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys

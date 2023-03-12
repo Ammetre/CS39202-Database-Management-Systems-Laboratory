@@ -1,6 +1,6 @@
 from rest_framework import serializers
 import random
-from .models import Doctor, Patient, Appointment, Admission_Info, Test, Room, user
+from .models import Doctor, Patient, Appointment, Admission_Info, Test, Room, user, Treatment
 class PatientSerializer(serializers.ModelSerializer):
     PID = serializers.IntegerField(required=True)
     Name = serializers.CharField(max_length=100, required=True)
@@ -57,7 +57,6 @@ class DoctorSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 class AppointmentSerializer(serializers.ModelSerializer):
-    Remedy = serializers.SerializerMethodField('remedy_name')
     Patient = serializers.SerializerMethodField('patient_name')
     Doctor = serializers.SerializerMethodField('doc_name')
     PID = serializers.SerializerMethodField('patID')
@@ -83,11 +82,6 @@ class AppointmentSerializer(serializers.ModelSerializer):
         return instance.PID.Name
     def doc_name(self,instance):
         return instance.EID.Name
-    def remedy_name(self, instance):
-        if(instance.RID):
-            return instance.RID.Info
-        else:
-            return 'Untreated'
     def create(self, validated_data):
         T = Appointment.objects.create(AID=validated_data.get('AID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')))
         return T
@@ -99,39 +93,38 @@ class AppointmentSerializer(serializers.ModelSerializer):
             'Doctor',
             'Date',
             'Status',
-            'Remedy',
             'PID',
             'EID'
         )
     def post(self, instance, data):
         I = data.get('Perform')
-        K = data.get('Remedy')
         try:
             i = int(I)
         except:
-            instance.try_done(K)
+            instance.try_done()
             instance.save()
             return instance
         if(i):
             J = data.get('Date')
             instance.Date=J
-            instance.try_done(K)
+            instance.save()
+            instance.try_done()
             instance.save()
         return instance
     def update(self, instance, validated_data):
         # Once the request data has been validated, we can update the todo item instance in the database
         I = validated_data.get('Perform')
-        K = validated_data.get('Remedy')
         try:
             i = int(I)
         except:
-            instance.try_done(K)
+            instance.try_done()
             instance.save()
             return instance
         if(i):
             J = validated_data.get('Date')
             instance.Date=J
-            instance.try_done(K)
+            instance.save()
+            instance.try_done()
             instance.save()
         return instance
 class Admission_InfoSerializer(serializers.ModelSerializer):
@@ -249,3 +242,79 @@ class userSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         T = user.objects.create(EID=validated_data.get('EID'),Password_hash=validated_data.get('Password_hash'),role=validated_data.get('role'),name=validated_data.get('name'))
         return T
+class TreatmentSerializer(serializers.ModelSerializer):
+    Patient = serializers.SerializerMethodField('patient_name')
+    Doctor = serializers.SerializerMethodField('doc_name')
+    PID = serializers.SerializerMethodField('patID')
+    EID = serializers.SerializerMethodField('docID')
+    def to_internal_value(self, data):
+        internal_value = super(TreatmentSerializer, self).to_internal_value(data)
+        PID_raw = data.get("PID")
+        PID_t = PID_raw
+        internal_value.update({
+            "PID": PID_t
+        })
+        EID_raw = data.get("EID")
+        EID_t = EID_raw
+        internal_value.update({
+            "EID": EID_t
+        })
+        Info_raw = data.get("Info")
+        Info_t = Info_raw
+        internal_value.update({
+            "Info": Info_t
+        })
+        return internal_value
+    def patID(self, instance):
+        return instance.PID.PID
+    def docID(self, instance):
+        return instance.EID.EID
+    def patient_name(self, instance):
+        return instance.PID.Name
+    def doc_name(self,instance):
+        return instance.EID.Name
+    def create(self, validated_data):
+        T = Treatment.objects.create(RID=validated_data.get('RID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')),Info=validated_data.get('Info'))
+        return T
+    class Meta:
+        model = Treatment
+        fields = (
+            'RID',
+            'Patient',
+            'Doctor',
+            'Date',
+            'Status',
+            'PID',
+            'EID'
+        )
+    def post(self, instance, data):
+        I = data.get('Perform')
+        try:
+            i = int(I)
+        except:
+            instance.try_done()
+            instance.save()
+            return instance
+        if(i):
+            J = data.get('Date')
+            instance.Date=J
+            instance.save()
+            instance.try_done()
+            instance.save()
+        return instance
+    def update(self, instance, validated_data):
+        # Once the request data has been validated, we can update the todo item instance in the database
+        I = validated_data.get('Perform')
+        try:
+            i = int(I)
+        except:
+            instance.try_done()
+            instance.save()
+            return instance
+        if(i):
+            J = validated_data.get('Date')
+            instance.Date=J
+            instance.save()
+            instance.try_done()
+            instance.save()
+        return instance

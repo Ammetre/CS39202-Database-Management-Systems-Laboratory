@@ -119,8 +119,10 @@ window.onload = async function(){
 	for(let i = 0; i < appointmentsData.length; ++i){
 		if(EID == appointmentsData[i].EID && appointmentsData[i].Status == "Pending"){
 			buttonColor = 'rgba(252, 226, 42, 0.7)';
+			inFuture = false;
 			if(new Date(appointmentsData[i].Date) > (new Date())){
 				buttonColor = 'rgba(126, 113, 21, 0.7)';
+				inFuture = true;
 			}
 			appointmentsTable.innerHTML += `
 				<tr>
@@ -128,7 +130,7 @@ window.onload = async function(){
 					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].Patient + `</td>
 					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].PID + `</td>
 					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].Date + `</td>
-					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px"> <div class = "buttonFF" style = "background: `+ buttonColor + `; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="MarkDone(` + appointmentsData[i].AID + `,` + appointmentsData[i].Date + `)"><span>&#x2705;</span></div></td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px"> <div class = "buttonFF" style = "background: `+ buttonColor + `; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="MarkDone(` + appointmentsData[i].AID + `,` + inFuture + `)"><span>&#x2705;</span></div></td>
 				</tr>
 			`;
 		}
@@ -149,9 +151,9 @@ window.onload = async function(){
 	}
 }
 
-function MarkDone(AID, date){
+function MarkDone(AID, inFuture){
 
-	if((new Date()) < (new Date(date))){
+	if(inFuture){
 		alert("Cannot mark something in the future!");
 		return;
 	}

@@ -286,7 +286,8 @@ class TreatmentSerializer(serializers.ModelSerializer):
             'Date',
             'Status',
             'PID',
-            'EID'
+            'EID',
+            'Info'
         )
     def post(self, instance, data):
         I = data.get('Perform')

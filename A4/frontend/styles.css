@@ -230,6 +230,30 @@ input:focus, textarea:focus, select:focus {
   color: white;
 }
 
+#doctor-appointments-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#doctor-appointments-table td, #doctor-appointments-table th {
+}
+
+#doctor-appointments-table tr {
+  background-color: rgba(219, 62, 4, 0.2);
+}
+
+#doctor-appointments-table tbody {
+  backdrop-filter: blur(20px);
+}
+
+#doctor-appointments-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: rgb(219, 62, 4);
+  color: white;
+}
+
+
 #users-table {
   border-collapse: collapse;
 }

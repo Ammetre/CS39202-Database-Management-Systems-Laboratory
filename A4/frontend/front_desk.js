@@ -401,7 +401,6 @@ async function ScheduleAppointment(){
 	const dayInt = ((7 - (new Date(appointmentDate)).getDay()) % 7);
 	const res = (1 << dayInt) & doctorInfo.Day_Availability;
 
-	alert("dayInt = " + dayInt + ", avail = " + doctorInfo.Day_Availability + ", \n res = " + res);
 	if(res == 0){
 		alert('Doctor Unavailable on ' + appointmentDate);
 		return;

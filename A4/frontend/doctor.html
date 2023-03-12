@@ -22,6 +22,27 @@
 		</div>
 
 		<br>
+		<br>
+		<br>
+		<hr color = #58287F style="margin: 10px">
+		<br>
+		<br>
+		
+		<div id = round_box style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(219, 62, 4, 0.2); width: 1200px">
+			<table align = center>
+				<tr border = 1px>
+					<td align = center style = "font-size: 25px; font-family: 'Inter'; padding: 20px; width: 550px" onClick = 'scrollToPatient()'>Manage Patients</td>
+					<td align = center style = "font-size: 25px; font-family: 'Inter'; padding: 20px; width: 550px" onClick = 'scrollToAppointment()'>Manage Appointment</td>
+				</tr>
+			</table>
+		</div>
+
+		<br>
+		<br>
+		<br>
+		<hr color = #58287F style="margin: 10px">
+		<br>
+		<br>
 		<table align = center style = "width: 100%">
 			<tr align = "center"><td>
 			<div style="float: left">
@@ -56,13 +77,13 @@
 				</caption>
 				<tr>
 					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white ">
-						Patient ID
+						Remedy ID
 					</th>
 					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white;">
 						Name
 					</th>
 					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white;">
-						Appointment ID
+						Patient ID
 					</th>
 					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white;">
 						Date
@@ -99,6 +120,59 @@
 		<div id = round_box_noblur style="backdrop-filter: blur(10px); border-radius: 10px; background-color: rgba(252, 226, 42, 0.7)">
 			<p id = 'patient-info' style="padding: 20px; color: #db3e04; font-size: 25px; font-family: 'Inter';">No Patient Selected</p>
 		</div>
+
+		<br>
+		<br>
+		<br>
+		<hr color = #db3e04>
+		<br>
+		
+		<table style="border-radius: 10px; overflow: hidden; width: 70%; " align="center" id = "doctor-appointments-table">
+				<caption style = "padding: 10px; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.7); font-family: Inter; font-size: 25px; color: #db3e04;">
+						<b>Pending Appointments</b>
+				</caption>
+				<tr>
+					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white ">
+						Appointment ID
+					</th>
+					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white;">
+						Patient Name
+					</th>
+					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white;">
+						Patient ID
+					</th>
+					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white;">
+						Date
+					</th>
+					<th valign="center" align="center" style= "font-family: Inter; font-size: 22px; color: white;">
+						Mark Done
+					</th>
+				</tr>
+				<tbody id = "doctor-appointments-table-interior">
+				<!-- <tr>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">robin</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">123</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12/34/56</td>
+				</tr>
+					<tr>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">robin</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">123</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12/34/56</td>
+				</tr>
+					<tr>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">robin</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">123</td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">12/34/56</td>
+				 </tr> -->
+			</tbody>
+			</table>
+
+		<!-- <p id = 'patient-info' style="padding-left: 20px; color: #D61355; font-size: 23px; font-family: 'Inter';">No Patient Selected</p> -->
+
+
 
 		<script type = "text/javascript" src = "./doctor.js"></script>
 	</body>

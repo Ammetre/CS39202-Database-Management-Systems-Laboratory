@@ -36,11 +36,15 @@ function printTable(usersData){
 		if(usersData[i].EID == 1){
 			buttonColor = "#033203";
 		}
+		let printEmail = "<span>&#x1F6AB;</span>";
+		if(usersData[i].email != null){
+			printEmail = usersData[i].email;
+		}
 		userTable.innerHTML += `
 			<tr id = ` + usersData[i].EID + `>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].EID + `</td>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].name + `</td>\n` +
-				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + usersData[i].email + `</td>\n` +
+				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + printEmail + `</td>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(usersData[i].role) + `</td>\n` +
 				`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: ` + buttonColor + `; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + usersData[i].EID + `,` + (usersData[i].role === 'doctor') + `)"><span>&#x1F5D1;</span></div></td>\n` +
 			`</tr>`;
@@ -115,11 +119,31 @@ function getAppointmentsList(){
 }
 
 async function deleteAppointmentsOfThisDoctor(eid){
-	const appointments = await getAppointmentsList;
+	const appointments = await getAppointmentsList();
 	for(let i = 0; i < appointments.length; ++i){
 		if(appointments[i].EID == eid){
 			new Promise((resolve, reject) => {
 				url = "http://127.0.0.1:9000/appointments/" + appointments[i].aid +"/";
+				const xhr = new XMLHttpRequest();
+				xhr.open('DELETE', url);
+				xhr.onload = () => {
+					resolve(xhr.status);
+				};
+				xhr.onerror = () => {
+					reject(new Error('Request failed'));
+				};
+				xhr.send();
+			});
+		}
+	}
+}
+
+async function deleteTreatmentssOfThisDoctor(eid){
+	const treatments = await getTreatmentsList();
+	for(let i = 0; i < treatments.length; ++i){
+		if(treatments[i].EID == eid){
+			new Promise((resolve, reject) => {
+				url = "http://127.0.0.1:9000/treatments/" + treatments[i].aid +"/";
 				const xhr = new XMLHttpRequest();
 				xhr.open('DELETE', url);
 				xhr.onload = () => {
@@ -168,6 +192,7 @@ function DeleteUser(eid, isDoctor){
 			xhr.send();
 		});
 		deleteAppointmentsOfThisDoctor(eid);
+		deleteTreatmentsOfThisDoctor(eid);
 	}
 	window.location.href = document.location.href;
 
@@ -184,7 +209,7 @@ async function addUser(){
 	const role = document.forms['add-user'].role.value;
 	const passwordHash = MD5(document.forms['add-user'].password.value);
 	const passwordHash2 = MD5(document.forms['add-user'].password2.value);
-	const email = document.forms['add-user'].email.value;
+	let email = document.forms['add-user'].email.value;
 	if(passwordHash != passwordHash2){
 		alert("Passwords do not match!");
 		return;
@@ -204,7 +229,9 @@ async function addUser(){
 		spz = document.forms['add-user'].spz.value;
 		chamber = document.forms['add-user'].chamber.value;
 	}
-	// use database insertion here
+	if(email == ""){
+		email = null;
+	}
 	new Promise((resolve, reject) => {
 		if(EID == 0){
 			return "-1";
@@ -263,11 +290,15 @@ async function addUser(){
 		});
 	}
 
+	let printEmail = "<span>&#x1F6AB;</span>";
+	if(email != null){
+		printEmail = email;
+	}
 	document.getElementById('users-table-interior').innerHTML += `
 	<tr id = ` + EID + `>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + EID + `</td>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + name + `</td>\n` +
-		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + email + `</td>\n` +
+		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + printEmail + `</td>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + formatRole(role) + `</td>\n` +
 		`<td valign=\"center\" align=\"center\" style= \"font-family: Inter; font-size: 22px\">` + `<div class = "buttonFF" style = "background: #076307; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="DeleteUser(` + EID + `)"><span>&#x1F5D1;</span></div></td>\n` +
 	`</tr>`;

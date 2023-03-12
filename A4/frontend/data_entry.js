@@ -25,6 +25,28 @@ function getName(EID){
 	});
 }
 
+function getEmail(EID){
+	return new Promise((resolve, reject) => {
+		if(EID == 0){
+			return "-1";
+		}
+		url = "http://127.0.0.1:9000/users/" + EID + "/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('GET', url);
+		xhr.onload = () => {
+			if (xhr.status === 200) {
+				const data = JSON.parse(xhr.responseText);
+				resolve(data.email);
+			} else {
+				resolve("[Not Found]");
+			}
+		};
+		xhr.onerror = () => {
+			reject(new Error('Request failed'));
+		};
+		xhr.send();
+	});
+}
 
 window.onload = async function(){
 	var url = document.location.href,
@@ -154,6 +176,9 @@ function getdoctorInfo(PID){
 	return false;
 }
 
+let insTID = -1;
+let sent = 0;
+
 async function addTest(){
 
 	// test :
@@ -170,13 +195,13 @@ async function addTest(){
 
 	const patientInfo = await getPatientInfo(PID);
 	if(patientInfo == "-1"){
-		alert("Patient DOes not exist!");
+		alert("Patient Does not exist!");
 		return;
 	}
 
 	const doctorInfo = await getdoctorInfo(EID);
 	if(doctorInfo == "-1"){
-		alert("Doctor DOes not exist!");
+		alert("Doctor Does not exist!");
 		return;
 	}
 
@@ -218,5 +243,68 @@ async function addTest(){
 			"Type of test: " + type + "\n\n" +
 			"Report: {\n" + report + "\n}"
 			);
+	insTID = TID;
+	sent = 0;
+
+}
+
+async function sendEmail(){
+
+	if(insTID == -1) {
+		alert("First Add the Test Information!");
+		return;
+	}
+
+	if(sent == 1) {
+		alert("Already sent!");
+		return;
+	}
+
+	const EID = document.forms['test-form'].EID.value;
+	const PID = document.forms['test-form'].PID.value;
+	// const date = document.forms['test-form'].date.value;
+	const type = document.forms['test-form'].type.value;
+	const report = document.forms['test-form'].report.value;
+	const doctorEmail = getEmail(EID);
+
+	const patientInfo = await getPatientInfo(PID);
+	if(patientInfo == "-1"){
+		alert("Patient Does not exist!");
+		return;
+	}
+	const patName = patientInfo.Name;
+	const subject_to_send = 'Test [' + insTID + '] of Patient [' + PID + '] ' + patName;
+	const message_to_send_html = "<strong>Type: </strong>" + type + "\n" +
+							                 "<strong>Report</strong>\n" + report + "\n";
+	const message_to_send_text = "# Type: " + type + "\n" +
+													     "# Report\n" + report + "\n";
+	sgMail.setApiKey('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')
+	const msg = {
+  	to: 'hospital_dbms_kgp@mail.com',
+  	from: doctorEmail,
+  	subject: subject_to_send,
+  	text: message_to_send_text,
+  	html: message_to_send_html,
+	}
+
+
+	new Promise((resolve, reject) => {
+		url = "http://127.0.0.1:9000/email/";
+		const xhr = new XMLHttpRequest();
+		xhr.open('POST', url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+
+		xhr.ononreadystatechange = function() {
+			alert("Status: " + status);
+			if (this.readyState === 4 && this.status === 200) {
+				var response = JSON.parse(this.responseText);
+				alert(response);
+				// do something with the response
+			}
+		};
+		xhr.send(JSON.stringify(msg));
+	});
+	sent = 1;
+	alert('Sent Email Successfully!');
 
 }

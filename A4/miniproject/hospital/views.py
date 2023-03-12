@@ -4,6 +4,9 @@ from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import *
+import datetime
 
 from .models import Patient, Doctor, Admission_Info, Appointment, Test, user, Treatment
 from .serializers import PatientSerializer, DoctorSerializer, Admission_InfoSerializer, AppointmentSerializer, StatSerializer, userSerializer, TreatmentSerializer
@@ -583,3 +586,6 @@ class TreatmentView(
 
     # Return a HTTP response notifying that the todo item was successfully deleted
         return Response(status=204)
+
+def emailer(request):
+    print(request);

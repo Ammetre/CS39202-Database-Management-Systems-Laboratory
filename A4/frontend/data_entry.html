@@ -78,10 +78,17 @@
 							<textarea cols = 50 rows = 5 type = "file" name = "report" id = "report" style = "font-size: 17px; font-family: 'Inter'; border-radius: 10px"></textarea>
 						</td>
 					</tr>
+				</table>
+				<table align = center>
 					<tr align = center>
-						<td colspan = "2" align = center>
+						<td align = center>
 							<div class = "buttonFF" style = "background: rgb(58, 16, 120); font-family: 'Inter'; color: white; font-size:23px; margin-top: 5px; height: 30px; padding: 10px; width:300px;" onclick="addTest()" align = center>
 								<span>Add Test Information</span>
+							</div>
+						</td>
+						<td align = center>
+							<div class = "buttonFF" style = "background: rgb(58, 16, 120); font-family: 'Inter'; color: white; font-size:23px; margin-top: 5px; height: 30px; padding: 10px; width:300px;" onclick="sendEmail()" align = center>
+								<span>Send Email To Doctor</span>
 							</div>
 						</td>
 					</tr>
@@ -92,5 +99,6 @@
 		<!-- <p id = 'patient-info' style="padding-left: 20px; color: #D61355; font-size: 23px; font-family: 'Inter';">No Patient Selected</p> -->
 
 		<script type = "text/javascript" src = "./data_entry.js"></script>
+		<script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
 	</body>
 </html>

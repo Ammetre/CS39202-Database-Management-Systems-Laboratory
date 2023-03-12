@@ -263,7 +263,7 @@ class TreatmentSerializer(serializers.ModelSerializer):
     def doc_name(self,instance):
         return instance.EID.Name
     def create(self, validated_data):
-        T = Treatment.objects.create(RID=validated_data.get('RID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')),Info=validated_data.get('Info'),Date=validated_data.get('Date'))
+        T = Treatment.objects.create(RID=validated_data.get('RID'),PID=Patient.objects.get(PID=validated_data.get('PID')),EID=Doctor.objects.get(EID=validated_data.get('EID')),Info=validated_data.get('Info'))
         return T
     class Meta:
         model = Treatment

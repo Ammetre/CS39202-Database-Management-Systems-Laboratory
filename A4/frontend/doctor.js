@@ -118,13 +118,17 @@ window.onload = async function(){
 
 	for(let i = 0; i < appointmentsData.length; ++i){
 		if(EID == appointmentsData[i].EID && appointmentsData[i].Status == "Pending"){
+			buttonColor = rgba(252, 226, 42, 0.7);
+			if(new Date(appointmentsData[i].Date) > (new Date())){
+				buttonColor = rgba(126, 113, 21, 0.7);
+			}
 			appointmentsTable.innerHTML += `
 				<tr>
 					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].AID + `</td>
 					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].Patient + `</td>
 					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].PID + `</td>
 					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px">` + appointmentsData[i].Date + `</td>
-					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px"> <div class = "buttonFF" style = "background: rgba(252, 226, 42, 0.7); font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="MarkDone(` + appointmentsData[i].AID + `,` + appointmentsData[i].Date + `)"><span>&#x2705;</span></div></td>
+					<td valign="center" align="center" style= "font-family: Inter; font-size: 22px"> <div class = "buttonFF" style = "background: `+ buttonColor + `; font-family: 'Inter'; color: white; font-size:17px; margin-top: 5px; height: 20px; padding: 10px; width:60px; " onclick="MarkDone(` + appointmentsData[i].AID + `,` + appointmentsData[i].Date + `)"><span>&#x2705;</span></div></td>
 				</tr>
 			`;
 		}

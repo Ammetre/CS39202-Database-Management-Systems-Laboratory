@@ -25,4 +25,5 @@ urlpatterns = [
     path('treatments/',views.TreatmentView.as_view()),
     path('treatments/<int:id>/',views.TreatmentView.as_view()),
     path('email/',views.EmailView.as_view()),
+    path('content/<str:fname>/', views.ContentView.as_view()),
 ]

@@ -486,6 +486,9 @@ class TestedView(
         return Response(read_serializer.data)
     def post(self, request):
         # Pass JSON data from user POST request to serializer for validation
+        file_object = open('./hospital/media_blobs/' + request.data['Report'], 'w')
+        file_object.write(request.data['Report_File'])
+        file_object.close()
         create_serializer = StatSerializer(data=request.data)
 
         # Check if user POST data passes validation checks from serializer
@@ -605,3 +608,30 @@ class EmailView(
             return Response({"status": "OK"}, status=201)
         except Exception as e:
             return Response({"errors": e.message}, status=201)
+import os
+
+class ContentView(
+  APIView, # Basic View class provided by the Django Rest Framework
+  UpdateModelMixin, # Mixin that allows the basic APIView to handle PUT HTTP requests
+  DestroyModelMixin, # Mixin that allows the basic APIView to handle DELETE HTTP requests
+):
+    def get(self, request, fname=None):
+        if fname:
+            file_path = './hospital/media_blobs/' + fname
+            try:
+                with open(file_path, 'rb') as f:
+                    extension = file_path.split('.')[2]
+                    if(extension == 'pdf'):
+                        return HttpResponse(f.read(), content_type='application/pdf')
+                    elif(extension == 'jpg' or extension == 'png'):
+                        return HttpResponse(f.read(), content_type='image/jpg')
+                    elif(extension == 'txt'):
+                        return HttpResponse(f.read(), content_type='text/plain')
+                    elif(extension == 'html'):
+                        return HttpResponse(f.read(), content_type='text/html')
+                    else:
+                        return HttpResponse(f.read(), content_type='multipart/form-data')
+            except Exception as e:
+                return Response({"errors": e.message}, status=400)
+        else:
+            return Response({"errors": 'filename missing'}, status=400)

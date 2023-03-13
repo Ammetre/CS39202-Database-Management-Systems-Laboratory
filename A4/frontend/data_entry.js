@@ -191,7 +191,7 @@ async function addTest(){
 	const PID = document.forms['test-form'].PID.value;
 	// const date = document.forms['test-form'].date.value;
 	const type = document.forms['test-form'].type.value;
-	const report = document.forms['test-form'].report.value;
+	const report_file = document.forms['test-form'].report.files[0];
 
 	const patientInfo = await getPatientInfo(PID);
 	if(patientInfo == "-1"){
@@ -206,7 +206,8 @@ async function addTest(){
 	}
 
 	const TID = await generateNewTID(PID);
-
+	const report = TID + '.' + report_file.name.split('.')[1]
+	const report_data = await report_file.text();
 	new Promise((resolve, reject) => {
 		url = "http://127.0.0.1:9000/tests/";
 		const xhr = new XMLHttpRequest();
@@ -220,8 +221,18 @@ async function addTest(){
 			"Test_Type": type,
 			"Patient_name": patientInfo.Name,
 			"Doctor_name": doctorInfo.Name,
-			"Report": report
+			"Report": report,
+			"Report_File": report_data
 		}
+		// var testDetails = new FormData();
+		// testDetails.append('TID', TID);
+		// testDetails.append('PID', PID);
+		// testDetails.append('EID', EID);
+		// testDetails.append('Test_Type', type);
+		// testDetails.append('Patient_name', patientInfo.Name);
+		// testDetails.append('Doctor_name', doctorInfo.Name);
+		// testDetails.append('Report', report);
+	  // testDetails.append('Report_File', report_file);
 
 		xhr.ononreadystatechange = function() {
 			alert("Status: " + status);

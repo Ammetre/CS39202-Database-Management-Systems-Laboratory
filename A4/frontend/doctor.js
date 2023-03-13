@@ -349,12 +349,16 @@ async function FetchPatient(){
 	for(let i = 0; i < testsData.length; ++i){
 		if(testsData[i].PID == PID){
 			patientInfoDiv.innerHTML += `
-									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Test ID:` + testsData[i].TID + `
+									<table>
+									<tr><td>
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Test ID: ` + testsData[i].TID + `
 									<ul>
-									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Doctor:` + testsData[i].Doctor_name + ` (EID = ` + testsData[i].EID + `)
-									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Date:` + testsData[i].Date + `
-									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Report:<br>` + testsData[i].Report + `
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Doctor: ` + testsData[i].Doctor_name + ` (EID = ` + testsData[i].EID + `)
+									<li style = \"font-size: 25px; font-family: \'Inter\'; padding-left: 20px;\"> Date: ` + testsData[i].Date + `
 									</ul>
+									<div onclick=\"window.open(\'http://127.0.0.1:9000/content/` + testsData[i].Report + `/\');\" class = \"buttonFF\" style = \"font-size: 20px; font-family: \'Inter\'; margin-left: 60px; width: 300px\ height: 40px"> <span>See Report: ` + testsData[i].Report + `</span></div>
+									</td></tr>
+									</table>
 									`
 		}
 	}

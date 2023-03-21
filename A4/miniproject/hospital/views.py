@@ -4,9 +4,11 @@ from django.shortcuts import redirect
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.mixins import UpdateModelMixin, DestroyModelMixin
-from sendgrid import SendGridAPIClient
+from sendgrid import SendGridAPIClient, Attachment
 from sendgrid.helpers.mail import *
 import datetime
+import magic
+import base64
 
 from .models import Patient, Doctor, Admission_Info, Appointment, Test, user, Treatment
 from .serializers import PatientSerializer, DoctorSerializer, Admission_InfoSerializer, AppointmentSerializer, StatSerializer, userSerializer, TreatmentSerializer
@@ -486,9 +488,17 @@ class TestedView(
         return Response(read_serializer.data)
     def post(self, request):
         # Pass JSON data from user POST request to serializer for validation
-        file_object = open('./hospital/media_blobs/' + request.data['Report'], 'w')
-        file_object.write(request.data['Report_File'])
+        # file_object = open('./hospital/media_blobs/' + request.data['Report'], 'wb')
+        # file_object.write(bytes(request.data['Report_File'], 'utf-8'))
+        # file_object.close()
+        print(request.data['Report_File']['0'])
+        fileto_write = bytearray()
+        for key in request.data['Report_File']:
+            fileto_write.append(request.data['Report_File'][key])
+        file_object = open('./hospital/media_blobs/' + request.data['Report'], 'wb')
+        file_object.write(bytes(fileto_write))
         file_object.close()
+
         create_serializer = StatSerializer(data=request.data)
 
         # Check if user POST data passes validation checks from serializer
@@ -597,12 +607,27 @@ class EmailView(
 ):
     def post(self, request):
         sg = SendGridAPIClient('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')
+        file_path = './hospital/media_blobs/' + request.data['attach']
+        mime = magic.Magic(mime=True)
+        file_type = mime.from_file(file_path)
+        with open(file_path, "rb") as file_attachment:
+            encoded_string = base64.b64encode(file_attachment.read()).decode()
+            file_attachment.close()
+
+        attachment = Attachment(
+            FileContent(encoded_string),
+            FileName(request.data['attach']),
+            FileType(file_type),
+            Disposition('attachment')
+        )
+
         message = Mail(
             from_email='hospital_dbms_kgp@mail.com',
             to_emails=request.data['to'],
             subject=request.data['subject'],
             html_content=request.data['html']
         )
+        message.attachment = attachment
         try:
             response = sg.send(message)
             return Response({"status": "OK"}, status=201)
@@ -618,20 +643,19 @@ class ContentView(
     def get(self, request, fname=None):
         if fname:
             file_path = './hospital/media_blobs/' + fname
+            mime = magic.Magic(mime=True)
             try:
                 with open(file_path, 'rb') as f:
                     extension = file_path.split('.')[2]
-                    if(extension == 'pdf'):
-                        return HttpResponse(f.read(), content_type='application/pdf')
-                    elif(extension == 'jpg' or extension == 'png'):
-                        return HttpResponse(f.read(), content_type='image/jpg')
-                    elif(extension == 'txt'):
-                        return HttpResponse(f.read(), content_type='text/plain')
-                    elif(extension == 'html'):
-                        return HttpResponse(f.read(), content_type='text/html')
-                    else:
-                        return HttpResponse(f.read(), content_type='multipart/form-data')
+                    return HttpResponse(f.read(), content_type=mime.from_file(file_path))
+                    f.close()
             except Exception as e:
-                return Response({"errors": e.message}, status=400)
+                return HttpResponse(
+                    "The server encountered the following error while opening this file\n" + str(e),
+                    content_type='text/plain'
+                )
         else:
-            return Response({"errors": 'filename missing'}, status=400)
+            return HttpResponse(
+                    "Filename missing",
+                    content_type='text/plain'
+                )

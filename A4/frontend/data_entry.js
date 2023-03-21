@@ -177,6 +177,7 @@ function getdoctorInfo(PID){
 }
 
 let insTID = -1;
+let insReport = '';
 let sent = 0;
 
 async function addTest(){
@@ -192,6 +193,8 @@ async function addTest(){
 	// const date = document.forms['test-form'].date.value;
 	const type = document.forms['test-form'].type.value;
 	const report_file = document.forms['test-form'].report.files[0];
+	const buffer = await report_file.arrayBuffer();
+	const report_data = new Uint8Array(buffer);
 
 	const patientInfo = await getPatientInfo(PID);
 	if(patientInfo == "-1"){
@@ -207,7 +210,7 @@ async function addTest(){
 
 	const TID = await generateNewTID(PID);
 	const report = TID + '.' + report_file.name.split('.')[1]
-	const report_data = await report_file.text();
+
 	new Promise((resolve, reject) => {
 		url = "http://127.0.0.1:9000/tests/";
 		const xhr = new XMLHttpRequest();
@@ -255,6 +258,7 @@ async function addTest(){
 			"Report: {\n" + report + "\n}"
 			);
 	insTID = TID;
+	insReport = report;
 	sent = 0;
 
 }
@@ -275,7 +279,7 @@ async function sendEmail(){
 	const PID = document.forms['test-form'].PID.value;
 	// const date = document.forms['test-form'].date.value;
 	const type = document.forms['test-form'].type.value;
-	const report = document.forms['test-form'].report.value;
+    const report = '-- Attached --';
 	const doctorEmail = await getEmail(EID);
 
 	const patientInfo = await getPatientInfo(PID);
@@ -295,6 +299,7 @@ async function sendEmail(){
   	subject: subject_to_send,
   	text: message_to_send_text,
   	html: message_to_send_html,
+  	attach: insReport,
 	}
 
 

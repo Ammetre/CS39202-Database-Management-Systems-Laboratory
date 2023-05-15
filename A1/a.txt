@@ -1,0 +1,28 @@
+Unfortunately, as a language model AI, I am not able to create visual diagrams such as ER diagrams. However, I can describe the final ER diagram and the relationships between entities in words.
+
+The final ER diagram would include the following entities:
+
+    Patient: including information such as name, location (street address, city, state, district), symptoms, treatments, treatment status, recovery status, mortality status.
+    Hospital: including information such as location (street address, city, state, district), healthcare resources available, number of patients, hospital name.
+    Self-Reported Case: including information such as location (street address, city, state, district), symptoms, date reported, case status.
+    Testing Lab: including information such as location (street address, city, state, district), test results, lab name.
+    Vaccination Center: including information such as location (street address, city, state, district), vaccination schedule, center name.
+    Social Media Post: including information such as content, date posted, post type, post origin.
+    Treatment: including information such as type, duration, patient ID.
+    Symptom: including information such as name, duration, patient ID.
+    Variants: including information such as name, location and mutations, variant ID.
+    Healthcare Resource: including information such as type, availability, hospital ID.
+
+The relationships between these entities would be as follows:
+
+    Patient is hospitalized at a Hospital (hospital_id as a foreign key in Patient table referencing the primary key of Hospital table)
+    Patient has a Self-Reported Case (patient_id as a foreign key in Self-Reported Case table referencing the primary key of Patient table)
+    Patient is tested at a Testing Lab (testing_lab_id as a foreign key in Patient table referencing the primary key of Testing Lab table)
+    Patient receives a vaccination at a Vaccination Center (vaccination_center_id as a foreign key in Patient table referencing the primary key of Vaccination Center table)
+    Social Media Post is related to a Patient or a Self-Reported Case (patient_id or self_reported_case_id as a foreign key in Social Media Post table referencing the primary key of Patient or Self-Reported Case table)
+    Patient has a treatment (patient_id as a foreign key in Treatment table referencing the primary key of Patient table)
+    Patient has a symptom (patient_id as a foreign key in Symptom table referencing the primary key of Patient table)
+    Patient is infected with a variant (patient_id as a foreign key in Variants table referencing the primary key of Patient table)
+    Hospital has a healthcare resource (hospital_id as a foreign key in Healthcare Resource table referencing the primary key of Hospital table)
+
+This is a general representation of the final ER diagram, you can add or remove entities or attributes as per your requirement.
